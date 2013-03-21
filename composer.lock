@@ -1,5 +1,5 @@
 {
-    "hash": "439c1f83a3b0f09474db44bbaa75be03",
+    "hash": "e223fde0b84e78d9ade6bf8ca68374e2",
     "packages": [
 
     ],
@@ -410,9 +410,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "phpunit/phpunit": 0
+    },
     "platform": {
         "php": ">=5.3.0"
     },
