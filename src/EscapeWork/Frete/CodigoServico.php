@@ -6,25 +6,32 @@ class CodigoServico
     /**
      * Sedex varejo
      */
-    const SEDEX_VAREJO = 40010;
+    const SEDEX = 40010;
 
     /**
      * Sedex a cobrar varejo
      */
-    const SEDEX_A_COBRAR_VAREJO = 40045;
+    const SEDEX_A_COBRAR = 40045;
 
     /**
      * Sedex 10 varejo
      */
-    const SEDEX_10_VAREJO = 40215;
+    const SEDEX_10 = 40215;
 
     /**
      * Sedex hoje varejo
      */
-    const SEDEX_HOJE_VAREJO = 40290;
+    const SEDEX_HOJE = 40290;
 
     /**
      * PAC Varejo
      */
-    const PAC_VAREJO = 41106;
+    const PAC = 41106;
+
+    /**
+     * Array com todos os códigos
+     */
+    public static $codigos = array(
+        40010, 40045, 40215, 40290, 41106
+    );
 }
