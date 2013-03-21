@@ -1,5 +1,8 @@
 <?php namespace EscapeWork\Frete;
 
+use EscapeWork\Frete\Correios;
+use EscapeWork\Frete\CodigoServico;
+
 class CorreiosTest extends \PHPUnit_Framework_TestCase
 {
 
