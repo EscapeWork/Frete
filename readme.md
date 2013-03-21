@@ -1,4 +1,4 @@
-## EscapeWork/Frete
+## EscapeWork/Frete [![Build Status](https://secure.travis-ci.org/EscapeWork/Frete.png)](http://travis-ci.org/EscapeWork/Frete)
 
 ### Instalação
 
