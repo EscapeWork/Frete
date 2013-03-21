@@ -23,7 +23,7 @@ try {
     $frete = new Correios();
     $frete->setCodigoServico( EscapeWork\Frete\CodigoServico::SEDEX )
              ->setCepOrigem('cep de origem') # apenas numeros, sem hifen(-)
-             ->setCepDestino('93900000')     # apenas numeros, sem hifen(-)
+             ->setCepDestino('cep de destino')     # apenas numeros, sem hifen(-)
              ->setComprimento(30)
              ->setAltura(30)
              ->setLargura(30)
@@ -55,6 +55,9 @@ EscapeWork\Frete\CodigoServico::SEDEX_A_COBRAR; # sedex a cobrar
 EscapeWork\Frete\CodigoServico::SEDEX_10;       # sedex 10
 EscapeWork\Frete\CodigoServico::SEDEX_HOJE;     # sedex hoje
 EscapeWork\Frete\CodigoServico::PAC;            # pac
+```
+
+***
 
 ### Referências 
 
