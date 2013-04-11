@@ -53,8 +53,7 @@ class Correios
 
     public function setCodigoServico($nCdServico)
     {
-        if( !in_array($nCdServico, CodigoServico::$codigos))
-        {
+        if (! in_array($nCdServico, CodigoServico::$codigos)) {
             throw new InvalidArgumentException('Código não suportado');
         }
 
@@ -87,8 +86,7 @@ class Correios
     public function setFormato($nCdFormato)
     {
         $validTypes = array(1, 2, 3);
-        if( !in_array($nCdFormato, $validTypes) )
-        {
+        if (! in_array($nCdFormato, $validTypes)) {
             throw new InvalidArgumentException('Apenas os valores 1, 2 ou 3 São suportados');
         }
         $this->nCdFormato = $nCdFormato;
@@ -127,8 +125,7 @@ class Correios
     public function setMaoPropria($sCdMaoPropria)
     {
         $validTypes = array('S', 'N');
-        if( !in_array($sCdMaoPropria, $validTypes) )
-        {
+        if (! in_array($sCdMaoPropria, $validTypes)) {
             throw new InvalidArgumentException('Apenas os valores S ou N São suportados');
         }
 
@@ -147,8 +144,7 @@ class Correios
     public function setAvisoRecebimento($sCdAvisoRecebimento)
     {
         $validTypes = array('S', 'N');
-        if( !in_array($sCdAvisoRecebimento, $validTypes) )
-        {
+        if (! in_array($sCdAvisoRecebimento, $validTypes)) {
             throw new InvalidArgumentException('Apenas os valores S ou N São suportados');
         }
 
@@ -165,8 +161,7 @@ class Correios
         $url       = $this->buildUrl();
         $this->xml = @simplexml_load_file($url);
         
-        if ( !is_object( $this->xml ) ) 
-        {
+        if (! is_object($this->xml)) {
             throw new FreteException("Houve um erro ao buscar os dados. Verifique se todos os dados estão corretos");
         }
     }
@@ -205,7 +200,7 @@ class Correios
     public function getCodigoXml() 
     {
         return (string) $this->xml->cServico->Codigo;
-    } 
+    }
 
     /**
      * Retornando valor do frete
@@ -227,7 +222,7 @@ class Correios
     public function getPrazoEntrega() 
     {
         return (string) $this->xml->cServico->PrazoEntrega;
-    } 
+    }
 
     /**
      * Retornando Valor do serviço Mao Propria. 
@@ -239,7 +234,7 @@ class Correios
     public function getValorMaoPropria() 
     {
         return (string) $this->xml->cServico->ValorMaoPropria;
-    } 
+    }
 
     /**
      * Retornando Valor do Aviso de recebimento
@@ -250,7 +245,7 @@ class Correios
     public function getValorAvisoRecebimento() 
     {
         return (string) $this->xml->cServico->ValorAvisoRecebimento;
-    } 
+    }
 
     /**
      * Retornando Valor do Valor Declarado
@@ -261,7 +256,7 @@ class Correios
     public function getValorValorDeclarado() 
     {
         return (string) $this->xml->cServico->ValorValorDeclarado;
-    } 
+    }
 
     /**
      * Retornando se entrega será domiciliar 
@@ -273,7 +268,7 @@ class Correios
     public function getEntregaDomiciliar() 
     {
         return (string) $this->xml->cServico->EntregaDomiciliar;
-    } 
+    }
 
     /**
      * Retornando Se será feita entrega no sábado
@@ -285,8 +280,7 @@ class Correios
     public function getEntregaSabado() 
     {
         return (string) $this->xml->cServico->EntregaSabado;
-    } 
-
+    }
 
     /**
      * Retornando Se será feita entrega no sábado
@@ -298,8 +292,7 @@ class Correios
     public function getErro() 
     {
         return (string) $this->xml->cServico->Erro;
-    } 
-
+    }
     
     /**
      * Retornando array com erros
