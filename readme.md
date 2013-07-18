@@ -1,4 +1,4 @@
-## EscapeWork/Frete [![Build Status](https://secure.travis-ci.org/EscapeWork/Frete.png)](http://travis-ci.org/EscapeWork/Frete)
+## EscapeWork/Frete [![Build Status](https://secure.travis-ci.org/EscapeWork/Frete.png)](http://travis-ci.org/EscapeWork/Frete) [![Latest Stable Version](https://poser.pugx.org/escapework/frete/v/stable.png)](https://packagist.org/packages/escapework/frete) [![Total Downloads](https://poser.pugx.org/escapework/frete/downloads.png)](https://packagist.org/packages/escapework/frete)
 
 ### Instalação
 
