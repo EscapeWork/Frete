@@ -171,24 +171,27 @@ class Correios
         return $this->url . '?' . $this->getData();
     }
 
-    private function getData()
+    public function getData()
     {
-        return 
-            'nCdEmpresa='           . $this->nCdEmpresa . 
-            '&sDsSenha='            . $this->sDsSenha . 
-            '&nCdServico='          . $this->nCdServico .  
-            '&sCepOrigem='          . $this->sCepOrigem . 
-            '&sCepDestino='         . $this->sCepDestino . 
-            '&nVlPeso='             . $this->nVlPeso . 
-            '&nCdFormato='          . $this->nCdFormato . 
-            '&nVlComprimento='      . $this->nVlComprimento . 
-            '&nVlAltura='           . $this->nVlAltura . 
-            '&nVlLargura='          . $this->nVlLargura . 
-            '&nVlDiametro='         . $this->nVlDiametro . 
-            '&sCdMaoPropria='       . $this->sCdMaoPropria .  
-            '&nVlValorDeclarado='   . $this->nVlValorDeclarado . 
-            '&sCdAvisoRecebimento=' . $this->sCdAvisoRecebimento . 
-            '&StrRetorno='          . $this->retorno;
+        $data = array(
+            'nCdEmpresa'          => $this->nCdEmpresa, 
+            'sDsSenha'            => $this->sDsSenha, 
+            'nCdServico'          => $this->nCdServico, 
+            'sCepOrigem'          => $this->sCepOrigem,  
+            'sCepDestino'         => $this->sCepDestino, 
+            'nVlPeso'             => $this->nVlPeso, 
+            'nCdFormato'          => $this->nCdFormato, 
+            'nVlComprimento'      => $this->nVlComprimento, 
+            'nVlAltura'           => $this->nVlAltura, 
+            'nVlLargura'          => $this->nVlLargura, 
+            'nVlDiametro'         => $this->nVlDiametro, 
+            'sCdMaoPropria'       => $this->sCdMaoPropria, 
+            'nVlValorDeclarado'   => $this->nVlValorDeclarado, 
+            'sCdAvisoRecebimento' => $this->sCdAvisoRecebimento, 
+            'StrRetorno'          => $this->retorno, 
+        );
+
+        return http_build_query($data, '', '&');
     }
 
     /**

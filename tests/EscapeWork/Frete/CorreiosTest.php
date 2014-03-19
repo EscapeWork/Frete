@@ -6,7 +6,7 @@ use EscapeWork\Frete\CodigoServico;
 class CorreiosTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testSetCodigoEmpresa()
+    public function test_set_codigo_empresa()
     {
         $correios = new Correios();
         $correios->setCodigoEmpresa('123');
@@ -14,7 +14,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correios->nCdEmpresa, '123');
     }
 
-    public function testSetSenha()
+    public function test_set_senha()
     {
         $correios = new Correios();
         $correios->setSenha('123');
@@ -25,7 +25,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testSetCodigoServicoShouldThrowInvalidArgumentException()
+    public function test_set_codigo_servico_should_throw_invalid_argument_exception()
     {
         $correios = new Correios();
         $correios->setCodigoServico('123');
@@ -33,7 +33,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correios->nCdServico, '123');
     }
 
-    public function testSetCodigoServico()
+    public function test_set_codigo_servico()
     {
         $correios = new Correios();
         $correios->setCodigoServico(CodigoServico::SEDEX);
@@ -41,7 +41,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correios->nCdServico, CodigoServico::SEDEX);
     }
 
-    public function testSetCepOrigem()
+    public function test_set_cep_origem()
     {
         $correios = new Correios();
         $correios->setCepOrigem('123');
@@ -49,7 +49,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correios->sCepOrigem, '123');
     }
 
-    public function testSetCepDestino()
+    public function test_set_cep_destino()
     {
         $correios = new Correios();
         $correios->setCepDestino('123');
@@ -57,7 +57,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correios->sCepDestino, '123');
     }
 
-    public function testSetPeso()
+    public function test_set_peso()
     {
         $correios = new Correios();
         $correios->setPeso('123');
@@ -68,7 +68,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testSetFormatoShouldThrowInvalidArgumentException()
+    public function test_set_formato_should_throw_invalid_argument_exception()
     {
         $correios = new Correios();
         $correios->setFormato('123');
@@ -76,7 +76,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correios->nCdFormato, '123');
     }
 
-    public function testSetFormato()
+    public function test_set_formato()
     {
         $correios = new Correios();
         $correios->setFormato(1);
@@ -84,7 +84,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correios->nCdFormato, 1);
     }
 
-    public function testSetComprimento()
+    public function test_set_comprimento()
     {
         $correios = new Correios();
         $correios->setComprimento('123');
@@ -92,7 +92,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correios->nVlComprimento, '123');
     }
 
-    public function testSetAltura()
+    public function test_set_altura()
     {
         $correios = new Correios();
         $correios->setAltura('123');
@@ -100,7 +100,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correios->nVlAltura, '123');
     }
 
-    public function testSetLargura()
+    public function test_set_largura()
     {
         $correios = new Correios();
         $correios->setLargura('123');
@@ -108,7 +108,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correios->nVlLargura, '123');
     }
 
-    public function testSetDiametro()
+    public function test_set_diametro()
     {
         $correios = new Correios();
         $correios->setDiametro('123');
@@ -119,7 +119,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testSetMaoPropriaShouldThrowInvalidArgumentException()
+    public function test_set_mao_propria_should_throw_invalid_argument_exception()
     {
         $correios = new Correios();
         $correios->setMaoPropria('123');
@@ -127,7 +127,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correios->sCdMaoPropria, '123');
     }
 
-    public function testSetMaoPropria()
+    public function test_set_mao_propria()
     {
         $correios = new Correios();
         $correios->setMaoPropria('S');
@@ -135,7 +135,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correios->sCdMaoPropria, 'S');
     }
 
-    public function testSetValorDeclarado()
+    public function test_set_valor_declarado()
     {
         $correios = new Correios();
         $correios->setValorDeclarado('123');
@@ -146,7 +146,7 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testSetAvisoRecebimentoShouldThrowInvalidArgumentException()
+    public function test_set_aviso_recebimento_should_throw_invalid_argument_exception()
     {
         $correios = new Correios();
         $correios->setAvisoRecebimento('123');
@@ -154,11 +154,19 @@ class CorreiosTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($correios->sCdAvisoRecebimento, '123');
     }
 
-    public function testSetAvisoRecebimento()
+    public function test_set_aviso_recebimento()
     {
         $correios = new Correios();
         $correios->setAvisoRecebimento('S');
 
         $this->assertEquals($correios->sCdAvisoRecebimento, 'S');
+    }
+
+    public function test_get_data()
+    {
+        $correios  = new Correios();
+        $queryData = $correios->getData();
+
+        $this->assertTrue(is_string($queryData));
     }
 }
