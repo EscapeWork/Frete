@@ -14,7 +14,7 @@ Instalação disponível via Composer.
 
 ***
 
-### Utilização 
+### Utilização
 
 ```php
 use EscapeWork\Frete\Correios;
@@ -30,8 +30,8 @@ try {
              ->setDiametro(30)
              ->setPeso(0.5);
     $frete->calcular();
-    
-    # opções de retorno 
+
+    # opções de retorno
     echo $frete->getCodigoXml();
     echo $frete->getValor();        # 13,20
     echo $frete->getPrazoEntrega();
@@ -43,14 +43,14 @@ try {
     echo $frete->getErro();
     echo $frete->getMsgErro();
 catch(EscapeWork\Frete\FreteException $e) {
-    // error handling 
+    // error handling
 }
 ```
 
-### Tipos de frete disponíveis 
+### Tipos de frete disponíveis
 
 ```php
-EscapeWork\Frete\CodigoServico::SEDEX;          # sedex 
+EscapeWork\Frete\CodigoServico::SEDEX;          # sedex
 EscapeWork\Frete\CodigoServico::SEDEX_A_COBRAR; # sedex a cobrar
 EscapeWork\Frete\CodigoServico::SEDEX_10;       # sedex 10
 EscapeWork\Frete\CodigoServico::SEDEX_HOJE;     # sedex hoje
@@ -59,6 +59,18 @@ EscapeWork\Frete\CodigoServico::PAC;            # pac
 
 ***
 
-### Referências 
+### Referências
 
 - http://www.correios.com.br/webServices/PDF/SCPP_manual_implementacao_calculo_remoto_de_precos_e_prazos.pdf
+
+### License
+
+The MIT License (MIT)
+
+Copyright (c) 2013 Escape Criativação LTDA
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
