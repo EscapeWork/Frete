@@ -1,7 +1,13 @@
-<?php namespace EscapeWork\Frete;
+<?php namespace EscapeWork\Frete\Correios;
 
-class CodigoServico
+class Data
 {
+
+    /**
+     * Urls
+     */
+    const URL_PRECO_PRAZO  = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx';
+    const URL_RASTREAMENTO = 'http://websro.correios.com.br/sro_bin/sroii_xml.eventos';
 
     /**
      * Sedex varejo

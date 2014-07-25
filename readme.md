@@ -14,7 +14,7 @@ Instalação disponível via Composer.
 
 ***
 
-### Utilização
+### Calculando preço e prazo
 
 ```php
 use EscapeWork\Frete\Correios;
@@ -56,6 +56,15 @@ EscapeWork\Frete\CodigoServico::SEDEX_10;       # sedex 10
 EscapeWork\Frete\CodigoServico::SEDEX_HOJE;     # sedex hoje
 EscapeWork\Frete\CodigoServico::PAC;            # pac
 ```
+
+### Rastreamento de encomendas
+
+Em desenvolvimento.
+
+##### Usar de referências
+
+* URL para consulta: POST http://websro.correios.com.br/sro_bin/sroii_xml.eventos
+* Dados: 'Usuario', 'Senha', 'Tipo', 'Resultado', 'Objetos'
 
 ***
 

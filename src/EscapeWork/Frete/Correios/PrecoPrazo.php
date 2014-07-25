@@ -1,20 +1,15 @@
-<?php namespace EscapeWork\Frete;
+<?php namespace EscapeWork\Frete\Correios;
 
 use InvalidArgumentException;
 
-class Correios
+class PrecoPrazo
 {
 
-    /**
-     * URL a ser chamada
-     */
-    protected $url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx';
-
 
     /**
-     * Variáveis para serem enviadas para o webservice 
+     * Variáveis para serem enviadas para o webservice
      */
-    public 
+    public
         $nCdEmpresa,                # Seu código administrativo junto à ECT
         $sDsSenha,                  # Senha para acesso ao serviço
         $nCdServico,                # Código do serviço - Ver classe CodigoServico
@@ -53,7 +48,7 @@ class Correios
 
     public function setCodigoServico($nCdServico)
     {
-        if (! in_array($nCdServico, CodigoServico::$codigos)) {
+        if (! in_array($nCdServico, Data::$codigos)) {
             throw new InvalidArgumentException('Código não suportado');
         }
 
@@ -160,7 +155,7 @@ class Correios
     {
         $url       = $this->buildUrl();
         $this->xml = @simplexml_load_file($url);
-        
+
         if (! is_object($this->xml)) {
             throw new FreteException("Houve um erro ao buscar os dados. Verifique se todos os dados estão corretos");
         }
@@ -168,27 +163,27 @@ class Correios
 
     private function buildUrl()
     {
-        return $this->url . '?' . $this->getData();
+        return Data::URL_PRECO_PRAZO . '?' . $this->getParameters();
     }
 
-    public function getData()
+    public function getParameters()
     {
         $data = array(
-            'nCdEmpresa'          => $this->nCdEmpresa, 
-            'sDsSenha'            => $this->sDsSenha, 
-            'nCdServico'          => $this->nCdServico, 
-            'sCepOrigem'          => $this->sCepOrigem,  
-            'sCepDestino'         => $this->sCepDestino, 
-            'nVlPeso'             => $this->nVlPeso, 
-            'nCdFormato'          => $this->nCdFormato, 
-            'nVlComprimento'      => $this->nVlComprimento, 
-            'nVlAltura'           => $this->nVlAltura, 
-            'nVlLargura'          => $this->nVlLargura, 
-            'nVlDiametro'         => $this->nVlDiametro, 
-            'sCdMaoPropria'       => $this->sCdMaoPropria, 
-            'nVlValorDeclarado'   => $this->nVlValorDeclarado, 
-            'sCdAvisoRecebimento' => $this->sCdAvisoRecebimento, 
-            'StrRetorno'          => $this->retorno, 
+            'nCdEmpresa'          => $this->nCdEmpresa,
+            'sDsSenha'            => $this->sDsSenha,
+            'nCdServico'          => $this->nCdServico,
+            'sCepOrigem'          => $this->sCepOrigem,
+            'sCepDestino'         => $this->sCepDestino,
+            'nVlPeso'             => $this->nVlPeso,
+            'nCdFormato'          => $this->nCdFormato,
+            'nVlComprimento'      => $this->nVlComprimento,
+            'nVlAltura'           => $this->nVlAltura,
+            'nVlLargura'          => $this->nVlLargura,
+            'nVlDiametro'         => $this->nVlDiametro,
+            'sCdMaoPropria'       => $this->sCdMaoPropria,
+            'nVlValorDeclarado'   => $this->nVlValorDeclarado,
+            'sCdAvisoRecebimento' => $this->sCdAvisoRecebimento,
+            'StrRetorno'          => $this->retorno,
         );
 
         return http_build_query($data, '', '&');
@@ -196,79 +191,79 @@ class Correios
 
     /**
      * Retornando código do XML
-     * 
+     *
      * @access public
      * @return string
      */
-    public function getCodigoXml() 
+    public function getCodigoXml()
     {
         return (string) $this->xml->cServico->Codigo;
     }
 
     /**
      * Retornando valor do frete
-     * 
+     *
      * @access public
      * @return string
      */
-    public function getValor() 
+    public function getValor()
     {
         return (string) $this->xml->cServico->Valor;
     }
 
     /**
      * Retornando Prazo de Entrega
-     * 
+     *
      * @access public
      * @return string
      */
-    public function getPrazoEntrega() 
+    public function getPrazoEntrega()
     {
         return (string) $this->xml->cServico->PrazoEntrega;
     }
 
     /**
-     * Retornando Valor do serviço Mao Propria. 
+     * Retornando Valor do serviço Mao Propria.
      * Será 0 caso tenha rejeitado este serviço
-     * 
+     *
      * @access public
      * @return string
      */
-    public function getValorMaoPropria() 
+    public function getValorMaoPropria()
     {
         return (string) $this->xml->cServico->ValorMaoPropria;
     }
 
     /**
      * Retornando Valor do Aviso de recebimento
-     * 
+     *
      * @access public
      * @return string
      */
-    public function getValorAvisoRecebimento() 
+    public function getValorAvisoRecebimento()
     {
         return (string) $this->xml->cServico->ValorAvisoRecebimento;
     }
 
     /**
      * Retornando Valor do Valor Declarado
-     * 
+     *
      * @access public
      * @return string
      */
-    public function getValorValorDeclarado() 
+    public function getValorValorDeclarado()
     {
         return (string) $this->xml->cServico->ValorValorDeclarado;
     }
 
     /**
-     * Retornando se entrega será domiciliar 
+     * Retornando se entrega será domiciliar
      * S para Sim ou N para Não
-     * 
+     *
      * @access public
      * @return string
      */
-    public function getEntregaDomiciliar() 
+    public function getEntregaDomiciliar()
     {
         return (string) $this->xml->cServico->EntregaDomiciliar;
     }
@@ -276,11 +271,11 @@ class Correios
     /**
      * Retornando Se será feita entrega no sábado
      * S para Sim ou N para Não
-     * 
+     *
      * @access public
      * @return string
      */
-    public function getEntregaSabado() 
+    public function getEntregaSabado()
     {
         return (string) $this->xml->cServico->EntregaSabado;
     }
@@ -288,22 +283,22 @@ class Correios
     /**
      * Retornando Se será feita entrega no sábado
      * S para Sim ou N para Não
-     * 
+     *
      * @access public
      * @return string
      */
-    public function getErro() 
+    public function getErro()
     {
         return (string) $this->xml->cServico->Erro;
     }
-    
+
     /**
      * Retornando array com erros
-     * 
+     *
      * @access public
      * @return string
      */
-    public function getMsgErro() 
+    public function getMsgErro()
     {
         return (string) $this->xml->cServico->MsgErro;
     }
