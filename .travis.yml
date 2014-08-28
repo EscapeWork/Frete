@@ -2,11 +2,10 @@ language:
   php
 
 php:
-  - 5.3
   - 5.4
 
-before_script: 
-  - composer install --no-dev
+before_script:
+  - composer install --dev
 
 script:
-  - "phpunit"
+  - "phpspec run"

@@ -43,6 +43,11 @@ class PrecoPrazo
      */
     private $retorno = 'xml';
 
+    public function __construct()
+    {
+
+    }
+
     public function setCodigoEmpresa($nCdEmpresa)
     {
         $this->data['nCdEmpresa'] = $nCdEmpresa;

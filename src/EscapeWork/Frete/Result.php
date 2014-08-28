@@ -1,6 +1,6 @@
 <?php namespace EscapeWork\Frete;
 
-class Result implements Arrayable
+class Result
 {
 
     /**
