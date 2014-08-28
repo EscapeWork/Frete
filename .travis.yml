@@ -8,4 +8,4 @@ before_script:
   - composer install --dev
 
 script:
-  - "phpspec run"
+  - "vendor/bin/phpspec run"
