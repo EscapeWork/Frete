@@ -1,6 +1,8 @@
 <?php namespace EscapeWork\Frete;
 
-class Result
+use ArrayAccess;
+
+class Result implements ArrayAccess
 {
 
     /**
@@ -42,6 +44,11 @@ class Result
         return $this->successful;
     }
 
+    public function setError($error)
+    {
+        $this->error = $error;
+    }
+
     public function getError()
     {
         return $this->error;
@@ -55,5 +62,27 @@ class Result
     public function __set($key, $value)
     {
         $this->attributes[$key] = $value;
+    }
+
+    public function offsetExists($key)
+    {
+        return isset($this->attributes[$key]);
+    }
+
+    public function offsetGet($key)
+    {
+        return isset($this->attributes[$key]) ? $this->attributes[$key] : null;
+    }
+
+    public function offsetSet($key, $value)
+    {
+        $this->attributes[$key] = $value;
+    }
+
+    public function offsetUnset($key)
+    {
+        if (isset($this->attributes[$key])) {
+            unset($this->attributes[$key]);
+        }
     }
 }

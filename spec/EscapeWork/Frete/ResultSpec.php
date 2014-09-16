@@ -24,4 +24,10 @@ class ResultSpec extends ObjectBehavior
         $this->setSuccessful(true);
         $this->successful()->shouldBe(true);
     }
+
+    function it_should_set_error()
+    {
+        $this->setError('Error message');
+        $this->getError()->shouldBe('Error message');
+    }
 }

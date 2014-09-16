@@ -1,9 +1,18 @@
 <?php namespace EscapeWork\Frete\Correios;
 
+use EscapeWork\Frete\Result;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ParseException;
 use InvalidArgumentException;
 
 class PrecoPrazo
 {
+
+    /**
+     * Guzzle client
+     * @var GuzzleHttp\Client
+     */
+    protected $client;
 
     /**
      * Códigos de erro aceitos
@@ -33,7 +42,7 @@ class PrecoPrazo
         'nVlDiametro'         => '',            # Diâmetro da encomenda (incluindo embalagem), em centímetros.
         'sCdMaoPropria'       => 'N',           # S ou N; Indica se a encomenda será entregue com o serviço adicional mão própria;
         'nVlValorDeclarado'   => 0,             # Valor em Reais; Indica se a encomenda será entregue com o serviço adicional valor declarado;
-        'sCdAvisoRecebimento' => 'N';           # S ou N; Indica se a encomenda será entregue com o serviço adicional aviso de recebimento.
+        'sCdAvisoRecebimento' => 'N',           # S ou N; Indica se a encomenda será entregue com o serviço adicional aviso de recebimento.
     ];
 
     /**
@@ -43,9 +52,9 @@ class PrecoPrazo
      */
     private $retorno = 'xml';
 
-    public function __construct()
+    public function __construct(Client $client)
     {
-
+        $this->client = $client;
     }
 
     public function setCodigoEmpresa($nCdEmpresa)
@@ -152,14 +161,15 @@ class PrecoPrazo
      */
     public function calcular()
     {
-        $url       = $this->buildUrl();
-        $this->xml = @simplexml_load_file($url);
+        $result = $this->client->get($this->buildUrl());
 
-        if (! is_object($this->xml)) {
-            throw new FreteException("Houve um erro ao buscar os dados. Verifique se todos os dados estão corretos");
+        try {
+            $xml = $result->xml();
+
+            return $this->result($xml);
+        } catch (ParseException $e) {
+            throw new FreteException('Houve um erro ao buscar os dados. Verifique se todos os dados estão corretos');
         }
-
-        return $this->result($this->xml);
     }
 
     private function buildUrl()
@@ -185,6 +195,7 @@ class PrecoPrazo
             $result->setSuccessful(true);
         } else {
             $result->setSuccessful(false);
+            $result->setError((string) $data->cServico->MsgErro);
         }
 
         $result->fill([
@@ -197,7 +208,7 @@ class PrecoPrazo
             'EntregaDomiciliar'     => $data->cServico->EntregaDomiciliar,
             'EntregaSabado'         => $data->cServico->EntregaSabado,
             'Erro'                  => $data->cServico->Erro,
-            'MsgErro'               => $data->cServico->MsgErro,
+            'MsgErro'               => (string) $data->cServico->MsgErro,
         ]);
 
         return $result;
