@@ -4,6 +4,7 @@ use EscapeWork\Frete\Result;
 use EscapeWork\Frete\FreteException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ParseException;
+use InvalidArgumentException;
 
 class Rastreamento
 {
@@ -21,14 +22,16 @@ class Rastreamento
     protected $result;
 
     /**
-     * Variaveis de configuração
+     * Data
+     * @var array
      */
-    protected
-        $usuario,
-        $senha,
-        $tipo,
-        $resultado,
-        $objetos;
+    protected $data = array(
+        'Usuario'   => '',
+        'Senha'     => '',
+        'Tipo'      => 'L',
+        'Resultado' => 'T',
+        'Objetos'   => '',
+    );
 
     public function __construct(Client $client, Result $result)
     {
@@ -38,69 +41,73 @@ class Rastreamento
 
     public function setUsuario($usuario)
     {
-        $this->usuario = $usuario;
+        $this->data['Usuario'] = $usuario;
+        return $this;
     }
 
     public function setSenha($senha)
     {
-        $this->senha = $senha;
+        $this->data['Senha'] = $senha;
+        return $this;
     }
 
     public function setTipo($tipo)
     {
-        $this->tipo = $tipo;
+        if (! in_array($tipo, array('L', 'F'))) {
+            throw new InvalidArgumentException('Apenas os valores L ou F são suportados para o tipo');
+        }
+
+        $this->data['Tipo'] = $tipo;
+        return $this;
     }
 
     public function setResultado($resultado)
     {
-        $this->resultado = $resultado;
+        if (! in_array($tipo, array('T', 'U'))) {
+            throw new InvalidArgumentException('Apenas os valores T ou U são suportados para o tipo');
+        }
+
+        $this->data['Resultado'] = $resultado;
+        return $this;
     }
 
     public function setObjetos($objetos)
     {
-        $this->objetos = $objetos;
+        if (strlen($objetos) % 13 !== 0) {
+            throw new InvalidArgumentException('O valor de cada objeto precisa ter 13 caracteres');
+        }
+
+        $this->data['Objetos'] = $objetos;
+        return $this;
     }
 
-    public function getUsuario()
+    public function track()
     {
-        return $this->usuario;
-    }
-
-    public function getSenha()
-    {
-        return $this->senha;
-    }
-
-    public function getTipo()
-    {
-        return $this->tipo;
-    }
-
-    public function getResultado()
-    {
-        return $this->resultado;
-    }
-
-    public function getObjetos()
-    {
-        return $this->objetos;
-    }
-
-    public function execute()
-    {
-        $this->client->post(DATA::URL_RASTREAMENTO, [
-            'body' => $this->getParameters()
+        $result = $this->client->post(DATA::URL_RASTREAMENTO, [
+            'body' => $this->data
         ]);
+
+        try {
+            $xml = $result->xml();
+
+            return $this->result($xml);
+        } catch (ParseException $e) {
+            throw new FreteException('Houve um erro ao buscar os dados. Verifique se todos os dados estão corretos');
+        }
     }
 
-    public function getParameters()
+    protected function result($data)
     {
-        return [
-            'Usuario'   => $this->getUsuario(),
-            'Senha'     => $this->getSenha(),
-            'Tipo'      => $this->getTipo(),
-            'Resultado' => $this->getResultado(),
-            'Objetos'   => $this->getObjetos(),
-        ];
+        $this->result->setSuccessful(true);
+        $this->result->fill([
+            'Versao'        => $data->Versao,
+            'Qtd'           => $data->Qtd,
+            'TipoPesquisa'  => $data->TipoPesquisa,
+            'TipoResultado' => $data->TipoResultado,
+            'Objeto'        => $data->Objeto,
+            'Evento'        => (array) $data->Evento,
+        ]);
+
+        return $this->result;
     }
 }
