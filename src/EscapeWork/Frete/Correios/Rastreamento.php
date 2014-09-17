@@ -1,6 +1,5 @@
 <?php namespace EscapeWork\Frete\Correios;
 
-use EscapeWork\Frete\Result;
 use EscapeWork\Frete\FreteException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ParseException;
@@ -17,7 +16,7 @@ class Rastreamento
 
     /**
      * Result
-     * @var EscapeWork\Frete\Result
+     * @var EscapeWork\Frete\Correios\RastreamentoResult
      */
     protected $result;
 
@@ -33,7 +32,7 @@ class Rastreamento
         'Objetos'   => '',
     );
 
-    public function __construct(Client $client, Result $result)
+    public function __construct(Client $client, RastreamentoResult $result)
     {
         $this->client = $client;
         $this->result = $result;
@@ -63,7 +62,7 @@ class Rastreamento
 
     public function setResultado($resultado)
     {
-        if (! in_array($tipo, array('T', 'U'))) {
+        if (! in_array($resultado, array('T', 'U'))) {
             throw new InvalidArgumentException('Apenas os valores T ou U são suportados para o tipo');
         }
 
@@ -98,16 +97,19 @@ class Rastreamento
 
     protected function result($data)
     {
-        $this->result->setSuccessful(true);
-        $this->result->fill([
-            'Versao'        => $data->Versao,
-            'Qtd'           => $data->Qtd,
-            'TipoPesquisa'  => $data->TipoPesquisa,
-            'TipoResultado' => $data->TipoResultado,
-            'Objeto'        => $data->Objeto,
-            'Evento'        => (array) $data->Evento,
-        ]);
+        if (! isset($data->error)) {
+            $this->result->setSuccessful(true);
+            $this->result->fill($this->xmlToArray($data));
+        } else {
+            $this->result->setSuccessful(false);
+            $this->result->setError((string) $data->error);
+        }
 
         return $this->result;
+    }
+
+    protected function xmlToArray($data)
+    {
+        return json_decode(json_encode((array) $data), 1);
     }
 }

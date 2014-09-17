@@ -1,48 +1,48 @@
-## EscapeWork/Frete [![Build Status](https://secure.travis-ci.org/EscapeWork/Frete.png)](http://travis-ci.org/EscapeWork/Frete) [![Latest Stable Version](https://poser.pugx.org/escapework/frete/v/stable.png)](https://packagist.org/packages/escapework/frete) [![Total Downloads](https://poser.pugx.org/escapework/frete/downloads.png)](https://packagist.org/packages/escapework/frete)
+# EscapeWork/Frete
 
-### Instalação
+[![Build Status](https://secure.travis-ci.org/EscapeWork/Frete.png)](http://travis-ci.org/EscapeWork/Frete) [![Latest Stable Version](https://poser.pugx.org/escapework/frete/v/stable.png)](https://packagist.org/packages/escapework/frete) [![Total Downloads](https://poser.pugx.org/escapework/frete/downloads.png)](https://packagist.org/packages/escapework/frete)
+
+## Instalação
 
 Instalação disponível via Composer.
 
 ```
 {
     "require": {
-        "escapework/frete": "0.1.*"
+        "escapework/frete": "0.2.*"
     }
 }
 ```
 
-***
+## Calculando preço e prazo
 
-### Calculando preço e prazo
-
-```php
-use EscapeWork\Frete\Correios;
+```
+use EscapeWork\Frete\Correios\PrecoPrazo;
+use EscapeWork\Frete\Correios\Data;
+use EscapeWork\Frete\FreteException;
 
 try {
-    $frete = new Correios();
-    $frete->setCodigoServico( EscapeWork\Frete\CodigoServico::SEDEX )
-             ->setCepOrigem('cep de origem') # apenas numeros, sem hifen(-)
-             ->setCepDestino('cep de destino')     # apenas numeros, sem hifen(-)
-             ->setComprimento(30)
-             ->setAltura(30)
-             ->setLargura(30)
-             ->setDiametro(30)
-             ->setPeso(0.5);
-    $frete->calcular();
+    $frete = new PrecoPrazo();
+    $frete->setCodigoServico(Data::SEDEX)
+          ->setCodigoEmpresa('Codigo')      # opcional
+          ->setSenha('Senha')               # opcional
+          ->setCepOrigem('cep de origem')   # apenas numeros, sem hifen(-)
+          ->setCepDestino('cep de destino') # apenas numeros, sem hifen(-)
+          ->setComprimento(30)              # obrigatorio
+          ->setAltura(30)                   # obrigatorio
+          ->setLargura(30)                  # obrigatorio
+          ->setDiametro(30)                 # obrigatorio
+          ->setPeso(0.5);                   # obrigatorio
 
-    # opções de retorno
-    echo $frete->getCodigoXml();
-    echo $frete->getValor();        # 13,20
-    echo $frete->getPrazoEntrega();
-    echo $frete->getValorMaoPropria();
-    echo $frete->getValorAvisoRecebimento();
-    echo $frete->getValorValorDeclarado();
-    echo $frete->getEntregaDomiciliar();
-    echo $frete->getEntregaSabado();
-    echo $frete->getErro();
-    echo $frete->getMsgErro();
-catch(EscapeWork\Frete\FreteException $e) {
+    $result = $frete->calculate();
+
+
+	if ($result->successful()) {
+
+	} else {
+        echo $result->getError();
+	}
+catch (FreteException $e) {
     // error handling
 }
 ```
@@ -50,11 +50,11 @@ catch(EscapeWork\Frete\FreteException $e) {
 ### Tipos de frete disponíveis
 
 ```php
-EscapeWork\Frete\CodigoServico::SEDEX;          # sedex
-EscapeWork\Frete\CodigoServico::SEDEX_A_COBRAR; # sedex a cobrar
-EscapeWork\Frete\CodigoServico::SEDEX_10;       # sedex 10
-EscapeWork\Frete\CodigoServico::SEDEX_HOJE;     # sedex hoje
-EscapeWork\Frete\CodigoServico::PAC;            # pac
+EscapeWork\Frete\Correios\Data::SEDEX;          # sedex
+EscapeWork\Frete\Correios\Data::SEDEX_A_COBRAR; # sedex a cobrar
+EscapeWork\Frete\Correios\Data::SEDEX_10;       # sedex 10
+EscapeWork\Frete\Correios\Data::SEDEX_HOJE;     # sedex hoje
+EscapeWork\Frete\Correios\Data::PAC;            # pac
 ```
 
 ### Rastreamento de encomendas
@@ -70,7 +70,8 @@ Em desenvolvimento.
 
 ### Referências
 
-- http://www.correios.com.br/para-voce/correios-de-a-a-z/pdf/calculador-remoto-de-precos-e-prazos/manual-de-implementacao-do-calculo-remoto-de-precos-e-prazos
+* [Cálculo de preço e prazo](http://www.correios.com.br/para-voce/correios-de-a-a-z/pdf/calculador-remoto-de-precos-e-prazos/manual-de-implementacao-do-calculo-remoto-de-precos-e-prazos)
+* [Rastreamento online](http://www.correios.com.br/para-voce/correios-de-a-a-z/pdf/rastreamento-de-objetos/Manual_SROXML_28fev14.pdf)
 
 ### License
 
