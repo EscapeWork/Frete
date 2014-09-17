@@ -18,16 +18,4 @@ class ResultSpec extends ObjectBehavior
         $this->fill(['title' => 'Testing result']);
         $this->title->shouldBe('Testing result');
     }
-
-    function it_should_set_successful()
-    {
-        $this->setSuccessful(true);
-        $this->successful()->shouldBe(true);
-    }
-
-    function it_should_set_error()
-    {
-        $this->setError('Error message');
-        $this->getError()->shouldBe('Error message');
-    }
 }

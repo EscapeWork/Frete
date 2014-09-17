@@ -6,26 +6,9 @@ class Result implements ArrayAccess
 {
 
     /**
-     * Variavel pra verificar se o resultado está OK
-     * @var bool
-     */
-    protected $successful = false;
-
-    /**
-     * Mensagem de erro
-     * @var string
-     */
-    protected $error;
-
-    /**
      * Attributes
      */
     protected $attributes = [];
-
-    public function __construct($data = array())
-    {
-        $this->fill($data);
-    }
 
     public function fill($data)
     {
@@ -34,34 +17,14 @@ class Result implements ArrayAccess
         }
     }
 
-    public function setSuccessful($successful)
-    {
-        $this->successful = (boolean) $successful;
-    }
-
-    public function successful()
-    {
-        return $this->successful;
-    }
-
-    public function setError($error)
-    {
-        $this->error = $error;
-    }
-
-    public function getError()
-    {
-        return $this->error;
-    }
-
     public function __get($key)
     {
-        return isset($this->attributes[$key]) ? $this->attributes[$key] : null;
+        return $this->offsetGet($key);
     }
 
     public function __set($key, $value)
     {
-        $this->attributes[$key] = $value;
+        $this->offsetSet($key, $value);
     }
 
     public function offsetExists($key)

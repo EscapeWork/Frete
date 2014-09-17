@@ -41,7 +41,11 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
 
     public function offsetSet($key, $value)
     {
-        $this->items[$key] = $value;
+        if (is_null($key)) {
+            $this->items[] = $value;
+        } else {
+            $this->items[$key] = $value;
+        }
     }
 
     public function offsetUnset($key)

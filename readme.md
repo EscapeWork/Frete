@@ -16,38 +16,37 @@ Instalação disponível via Composer.
 
 ## Calculando preço e prazo
 
-```
+```php
 use EscapeWork\Frete\Correios\PrecoPrazo;
 use EscapeWork\Frete\Correios\Data;
 use EscapeWork\Frete\FreteException;
 
-try {
-    $frete = new PrecoPrazo();
-    $frete->setCodigoServico(Data::SEDEX)
-          ->setCodigoEmpresa('Codigo')      # opcional
-          ->setSenha('Senha')               # opcional
-          ->setCepOrigem('cep de origem')   # apenas numeros, sem hifen(-)
-          ->setCepDestino('cep de destino') # apenas numeros, sem hifen(-)
-          ->setComprimento(30)              # obrigatorio
-          ->setAltura(30)                   # obrigatorio
-          ->setLargura(30)                  # obrigatorio
-          ->setDiametro(30)                 # obrigatorio
-          ->setPeso(0.5);                   # obrigatorio
+$frete = new PrecoPrazo();
+$frete->setCodigoServico(Data::SEDEX)
+      ->setCodigoEmpresa('Codigo')      # opcional
+      ->setSenha('Senha')               # opcional
+      ->setCepOrigem('cep de origem')   # apenas numeros, sem hifen(-)
+      ->setCepDestino('cep de destino') # apenas numeros, sem hifen(-)
+      ->setComprimento(30)              # obrigatorio
+      ->setAltura(30)                   # obrigatorio
+      ->setLargura(30)                  # obrigatorio
+      ->setDiametro(30)                 # obrigatorio
+      ->setPeso(0.5);                   # obrigatorio
 
+try {
     $result = $frete->calculate();
 
+    echo $result['cServico']['Valor'];
+    echo $result['cServico']['PrazoEntrega'];
 
-	if ($result->successful()) {
-
-	} else {
-        echo $result->getError();
-	}
+    var_dump($result); // debugge o resultado!
+}
 catch (FreteException $e) {
-    // error handling
+    echo $e->getMessage();
 }
 ```
 
-### Tipos de frete disponíveis
+#### Tipos de frete disponíveis
 
 ```php
 EscapeWork\Frete\Correios\Data::SEDEX;          # sedex
@@ -57,14 +56,33 @@ EscapeWork\Frete\Correios\Data::SEDEX_HOJE;     # sedex hoje
 EscapeWork\Frete\Correios\Data::PAC;            # pac
 ```
 
-### Rastreamento de encomendas
+#### Buscando múltiplos serviços
 
-Em desenvolvimento.
+Também é possível obter um array com vários serviços (Sedex e PAC, por exemplo) utilizando a classe `PrecoPrazo`.
 
-##### Usar de referências
+```php
+$frete = new PrecoPrazo();
+$frete->setCodigoServico(Data::SEDEX)
+      ... // todo os setters igual a chamada acima
 
-* URL para consulta: POST http://websro.correios.com.br/sro_bin/sroii_xml.eventos
-* Dados: 'Usuario', 'Senha', 'Tipo', 'Resultado', 'Objetos'
+try {
+    $results = $frete->calculate();
+
+    foreach ($results as $result) {
+        echo $result['cServico']['Valor'];
+        echo $result['cServico']['PrazoEntrega'];
+
+        var_dump($result); // debugge o resultado!
+    }
+}
+catch (FreteException $e) {
+    echo $e->getMessage();
+}
+```
+
+## Rastreamento de encomendas
+
+Precisa de documentação.
 
 ***
 

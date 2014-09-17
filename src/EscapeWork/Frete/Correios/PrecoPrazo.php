@@ -1,12 +1,12 @@
 <?php namespace EscapeWork\Frete\Correios;
 
-use EscapeWork\Frete\Result;
 use EscapeWork\Frete\FreteException;
+use EscapeWork\Frete\Collection;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ParseException;
 use InvalidArgumentException;
 
-class PrecoPrazo
+class PrecoPrazo extends BaseCorreios
 {
 
     /**
@@ -17,7 +17,7 @@ class PrecoPrazo
 
     /**
      * Result
-     * @var EscapeWork\Frete\Result
+     * @var EscapeWork\Frete\Correios\PrecoPrazoResult
      */
     protected $result;
 
@@ -37,20 +37,20 @@ class PrecoPrazo
      * @var array
      */
     protected $data = array(
-        'nCdEmpresa'          => '',            # Seu código administrativo junto à ECT
-        'sDsSenha'            => '',            # Senha para acesso ao serviço
-        'nCdServico'          => '40010,41106', # Código do serviço - Ver classe CodigoServico
-        'sCepOrigem'          => '',            # CEP de Origem sem hífen.Exemplo: 05311900
-        'sCepDestino'         => '',            # CEP de Destino sem hífen
-        'nVlPeso'             => '',            # Peso da encomenda, incluindo sua embalagem. O peso deve ser informado em quilogramas. Se o formato for Envelope, o valor máximo permitido será 1 kg;
-        'nCdFormato'          => 1,             # Formato da encomenda (incluindo embalagem). Valores possíveis: 1, 2 ou 3 1 – Formato caixa/pacote | 2 – Formato rolo/prisma | 3 - Envelope
-        'nVlComprimento'      => '',            # Comprimento da encomenda (incluindo embalagem), em centímetros.
-        'nVlAltura'           => '',            # Altura da encomenda (incluindo embalagem), em centímetros. Se o formato for envelope, informar zero (0).
-        'nVlLargura'          => '',            # Largura da encomenda (incluindo embalagem), em centímetros.
-        'nVlDiametro'         => '',            # Diâmetro da encomenda (incluindo embalagem), em centímetros.
-        'sCdMaoPropria'       => 'N',           # S ou N; Indica se a encomenda será entregue com o serviço adicional mão própria;
-        'nVlValorDeclarado'   => 0,             # Valor em Reais; Indica se a encomenda será entregue com o serviço adicional valor declarado;
-        'sCdAvisoRecebimento' => 'N',           # S ou N; Indica se a encomenda será entregue com o serviço adicional aviso de recebimento.
+        'nCdEmpresa'          => '',                 # Seu código administrativo junto à ECT
+        'sDsSenha'            => '',                 # Senha para acesso ao serviço
+        'nCdServico'          => ['40010', '41106'], # Código do serviço - Ver classe EscapeWork\Frete\Correios\Data
+        'sCepOrigem'          => '',                 # CEP de Origem sem hífen.Exemplo: 05311900
+        'sCepDestino'         => '',                 # CEP de Destino sem hífen
+        'nVlPeso'             => '',                 # Peso da encomenda, incluindo sua embalagem. O peso deve ser informado em quilogramas. Se o formato for Envelope, o valor máximo permitido será 1 kg;
+        'nCdFormato'          => 1,                  # Formato da encomenda (incluindo embalagem). Valores possíveis: 1, 2 ou 3 1 – Formato caixa/pacote | 2 – Formato rolo/prisma | 3 - Envelope
+        'nVlComprimento'      => '',                 # Comprimento da encomenda (incluindo embalagem), em centímetros.
+        'nVlAltura'           => '',                 # Altura da encomenda (incluindo embalagem), em centímetros. Se o formato for envelope, informar zero (0).
+        'nVlLargura'          => '',                 # Largura da encomenda (incluindo embalagem), em centímetros.
+        'nVlDiametro'         => '',                 # Diâmetro da encomenda (incluindo embalagem), em centímetros.
+        'sCdMaoPropria'       => 'N',                # S ou N; Indica se a encomenda será entregue com o serviço adicional mão própria;
+        'nVlValorDeclarado'   => 0,                  # Valor em Reais; Indica se a encomenda será entregue com o serviço adicional valor declarado;
+        'sCdAvisoRecebimento' => 'N',                # S ou N; Indica se a encomenda será entregue com o serviço adicional aviso de recebimento.
     );
 
     /**
@@ -60,10 +60,15 @@ class PrecoPrazo
      */
     private $retorno = 'xml';
 
-    public function __construct(Client $client, Result $result)
+    public function __construct(Client $client = null, PrecoPrazoResult $result = null)
     {
-        $this->client = $client;
-        $this->result = $result;
+        if (! $this->client = $client) {
+            $this->client = new Client;
+        }
+
+        if (! $this->result = $result) {
+            $this->result = new PrecoPrazoResult;
+        }
     }
 
     public function setCodigoEmpresa($nCdEmpresa)
@@ -78,9 +83,9 @@ class PrecoPrazo
         return $this;
     }
 
-    public function setCodigoServico($nCdServico)
+    public function setCodigoServico($codigo)
     {
-        $this->data['nCdServico'] = $nCdServico;
+        $this->data['nCdServico'] = (array) $codigo;
         return $this;
     }
 
@@ -174,7 +179,7 @@ class PrecoPrazo
 
             return $this->result($xml);
         } catch (ParseException $e) {
-            throw new FreteException('Houve um erro ao buscar os dados. Verifique se todos os dados estão corretos');
+            throw new FreteException('Houve um erro ao buscar os dados. Verifique se todos os dados estão corretos', 1);
         }
     }
 
@@ -187,7 +192,10 @@ class PrecoPrazo
     {
         $data = array_merge(
             $this->data,
-            ['StrRetorno' => $this->retorno]
+            [
+                'StrRetorno' => $this->retorno,
+                'nCdServico' => implode(',', $this->data['nCdServico'])
+            ]
         );
 
         return http_build_query($data, '', '&');
@@ -195,26 +203,54 @@ class PrecoPrazo
 
     protected function result($data)
     {
-        if (in_array($data->cServico->Erro, $this->successfulCodes)) {
-            $this->result->setSuccessful(true);
-        } else {
-            $this->result->setSuccessful(false);
-            $this->result->setError((string) $data->cServico->MsgErro);
+        $data = $this->xmlToArray($data);
+
+        if ($this->hasError($data)) {
+            throw new FreteException($this->getErrorMessage($data), 0);
         }
 
-        $this->result->fill([
-            'Codigo'                => $data->cServico->Codigo,
-            'Valor'                 => $data->cServico->Valor,
-            'PrazoEntrega'          => $data->cServico->PrazoEntrega,
-            'ValorMaoPropria'       => $data->cServico->ValorMaoPropria,
-            'ValorAvisoRecebimento' => $data->cServico->ValorAvisoRecebimento,
-            'ValorValorDeclarado'   => $data->cServico->ValorValorDeclarado,
-            'EntregaDomiciliar'     => $data->cServico->EntregaDomiciliar,
-            'EntregaSabado'         => $data->cServico->EntregaSabado,
-            'Erro'                  => $data->cServico->Erro,
-            'MsgErro'               => (string) $data->cServico->MsgErro,
-        ]);
+        if (! $this->dataIsCollection($data)) {
+            $this->result->fill($data);
+            return $this->result;
+        } else {
+            return $this->makeCollection($data);
+        }
+    }
 
-        return $this->result;
+    protected function hasError($data)
+    {
+        if (isset($data['cServico']['Erro'])) {
+            return ! in_array($data['cServico']['Erro'], $this->successfulCodes);
+        }
+
+        return ! in_array($data['cServico'][0]['Erro'], $this->successfulCodes);
+    }
+
+    protected function getErrorMessage($data)
+    {
+        if (isset($data['cServico']['MsgErro'])) {
+            return $data['cServico']['MsgErro'];
+        }
+
+        return $data['cServico'][0]['MsgErro'];
+    }
+
+    protected function dataIsCollection($data)
+    {
+        return ! isset($data['cServico']['Codigo']);
+    }
+
+    protected function makeCollection($data)
+    {
+        $objects = new Collection;
+
+        foreach ($data['cServico'] as $precoPrazo) {
+            $result = new PrecoPrazoResult();
+            $result->fill($precoPrazo);
+
+            $objects[] = $result;
+        }
+
+        return $objects;
     }
 }

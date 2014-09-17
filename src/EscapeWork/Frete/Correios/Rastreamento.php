@@ -1,11 +1,12 @@
 <?php namespace EscapeWork\Frete\Correios;
 
 use EscapeWork\Frete\FreteException;
+use EscapeWork\Frete\Collection;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ParseException;
 use InvalidArgumentException;
 
-class Rastreamento
+class Rastreamento extends BaseCorreios
 {
 
     /**
@@ -29,13 +30,18 @@ class Rastreamento
         'Senha'     => '',
         'Tipo'      => 'L',
         'Resultado' => 'T',
-        'Objetos'   => '',
+        'Objetos'   => [],
     );
 
-    public function __construct(Client $client, RastreamentoResult $result)
+    public function __construct(Client $client = null, RastreamentoResult $result = null)
     {
-        $this->client = $client;
-        $this->result = $result;
+        if (! $this->client = $client) {
+            $this->client = new Client;
+        }
+
+        if (! $this->result = $result) {
+            $this->result = new RastreamentoResult;
+        }
     }
 
     public function setUsuario($usuario)
@@ -72,18 +78,14 @@ class Rastreamento
 
     public function setObjetos($objetos)
     {
-        if (strlen($objetos) % 13 !== 0) {
-            throw new InvalidArgumentException('O valor de cada objeto precisa ter 13 caracteres');
-        }
-
-        $this->data['Objetos'] = $objetos;
+        $this->data['Objetos'] = (array) $objetos;
         return $this;
     }
 
     public function track()
     {
         $result = $this->client->post(DATA::URL_RASTREAMENTO, [
-            'body' => $this->data
+            'body' => $this->getData()
         ]);
 
         try {
@@ -91,25 +93,49 @@ class Rastreamento
 
             return $this->result($xml);
         } catch (ParseException $e) {
-            throw new FreteException('Houve um erro ao buscar os dados. Verifique se todos os dados estão corretos');
+            throw new FreteException('Houve um erro ao buscar os dados. Verifique se todos os dados estão corretos', 1);
         }
     }
 
     protected function result($data)
     {
-        if (! isset($data->error)) {
-            $this->result->setSuccessful(true);
-            $this->result->fill($this->xmlToArray($data));
-        } else {
-            $this->result->setSuccessful(false);
-            $this->result->setError((string) $data->error);
-        }
+        $data = $this->xmlToArray($data);
 
-        return $this->result;
+        if (! isset($data['error'])) {
+            if (isset($data['objeto']['numero'])) {
+                $this->result->fill($data['objeto']);
+
+                return $this->result;
+            } else {
+                return $this->makeCollection($data);
+            }
+        } else {
+            throw new FreteException($data['error'], 0);
+        }
     }
 
-    protected function xmlToArray($data)
+    protected function getData()
     {
-        return json_decode(json_encode((array) $data), 1);
+        return array(
+            'Usuario'   => $this->data['Usuario'],
+            'Senha'     => $this->data['Senha'],
+            'Tipo'      => $this->data['Tipo'],
+            'Resultado' => $this->data['Resultado'],
+            'Objetos'   => implode('', $this->data['Objetos']),
+        );
+    }
+
+    protected function makeCollection($data)
+    {
+        $objects = new Collection;
+
+        foreach ($data['objeto'] as $objeto) {
+            $result = new RastreamentoResult();
+            $result->fill($objeto);
+
+            $objects[] = $result;
+        }
+
+        return $objects;
     }
 }
