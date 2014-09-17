@@ -42,6 +42,7 @@ try {
     var_dump($result); // debugge o resultado!
 }
 catch (FreteException $e) {
+    // trate o erro adequadamente (e não escrevendo na tela)
     echo $e->getMessage();
 }
 ```
@@ -62,7 +63,7 @@ Também é possível obter um array com vários serviços (Sedex e PAC, por exem
 
 ```php
 $frete = new PrecoPrazo();
-$frete->setCodigoServico(Data::SEDEX)
+$frete->setCodigoServico([Data::SEDEX, Data::PAC])
       ... // todo os setters igual a chamada acima
 
 try {
@@ -76,13 +77,60 @@ try {
     }
 }
 catch (FreteException $e) {
+    // trate o erro adequadamente (e não escrevendo na tela)
     echo $e->getMessage();
 }
 ```
 
 ## Rastreamento de encomendas
 
-Precisa de documentação.
+Fazendo o rastreio de encomendas online.
+
+```php
+use EscapeWork\Frete\Correios\Rastreamento;
+use EscapeWork\Frete\FreteException;
+
+$rastreamento = new Rastreamento;
+$rastreamento->setUsuario('ECT')
+             ->setSenha('SRO')
+             ->setObjetos('SQ458226057BR');
+
+try {
+    $result = $rastreamento->track();
+
+    var_dump($result->delivered()); // se a entrega já foi finalizada (true ou false)
+    var_dump($result->inTransit()); // se o pacote está em transito (true ou false)
+
+    echo $result['evento']['tipo'];
+    echo $result['evento']['status'];
+    echo $result['evento']['data'];
+    echo $result['evento']['hora'];
+    echo $result['evento']['descricao'];
+
+    var_dump($result); // debugar, debugar!
+catch (FreteException $e) {
+    // trate o erro adequadamente (e não escrevendo na tela)
+    echo $e->getMessage();
+}
+
+#### Buscando múltiplas encomendas
+
+Também é possível buscar múltiplas encomendas com a classe `Rastreamento`.
+
+```php
+$rastreamento = new Rastreamento;
+$rastreamento->setUsuario('ECT')
+             ->setSenha('SRO')
+             ->setObjetos(['SQ458226057BR', 'SQ458226057BR']); // passe um array com os objetos
+
+try {
+    $results = $rastreamento->track();
+
+    foreach ($results as $result) {
+        var_dump($result->delivered());
+        ...
+    }
+}
 
 ***
 
