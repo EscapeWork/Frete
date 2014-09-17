@@ -1,6 +1,7 @@
 <?php namespace EscapeWork\Frete\Correios;
 
 use EscapeWork\Frete\Result;
+use EscapeWork\Frete\FreteException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ParseException;
 use InvalidArgumentException;
@@ -15,20 +16,27 @@ class PrecoPrazo
     protected $client;
 
     /**
+     * Result
+     * @var EscapeWork\Frete\Result
+     */
+    protected $result;
+
+    /**
      * Códigos de erro aceitos
      */
-    protected $successfulCodes = ['0', '010'];
+    protected $successfulCodes = array('0', '010');
 
     /**
      * Formatos validos
+     * @var array
      */
-    protected $formatosValidos = [1, 2, 3];
+    protected $formatosValidos = array(1, 2, 3);
 
     /**
      * Data
      * @var array
      */
-    protected $data = [
+    protected $data = array(
         'nCdEmpresa'          => '',            # Seu código administrativo junto à ECT
         'sDsSenha'            => '',            # Senha para acesso ao serviço
         'nCdServico'          => '40010,41106', # Código do serviço - Ver classe CodigoServico
@@ -43,7 +51,7 @@ class PrecoPrazo
         'sCdMaoPropria'       => 'N',           # S ou N; Indica se a encomenda será entregue com o serviço adicional mão própria;
         'nVlValorDeclarado'   => 0,             # Valor em Reais; Indica se a encomenda será entregue com o serviço adicional valor declarado;
         'sCdAvisoRecebimento' => 'N',           # S ou N; Indica se a encomenda será entregue com o serviço adicional aviso de recebimento.
-    ];
+    );
 
     /**
      * Tipo de retorno do conteúdo
@@ -52,9 +60,10 @@ class PrecoPrazo
      */
     private $retorno = 'xml';
 
-    public function __construct(Client $client)
+    public function __construct(Client $client, Result $result)
     {
         $this->client = $client;
+        $this->result = $result;
     }
 
     public function setCodigoEmpresa($nCdEmpresa)
@@ -156,10 +165,7 @@ class PrecoPrazo
         return $this;
     }
 
-    /**
-     * Fazendo a requisição e recebendo o retorno
-     */
-    public function calcular()
+    public function calculate()
     {
         $result = $this->client->get($this->buildUrl());
 
@@ -189,16 +195,14 @@ class PrecoPrazo
 
     protected function result($data)
     {
-        $result = new Result;
-
         if (in_array($data->cServico->Erro, $this->successfulCodes)) {
-            $result->setSuccessful(true);
+            $this->result->setSuccessful(true);
         } else {
-            $result->setSuccessful(false);
-            $result->setError((string) $data->cServico->MsgErro);
+            $this->result->setSuccessful(false);
+            $this->result->setError((string) $data->cServico->MsgErro);
         }
 
-        $result->fill([
+        $this->result->fill([
             'Codigo'                => $data->cServico->Codigo,
             'Valor'                 => $data->cServico->Valor,
             'PrazoEntrega'          => $data->cServico->PrazoEntrega,
@@ -211,6 +215,6 @@ class PrecoPrazo
             'MsgErro'               => (string) $data->cServico->MsgErro,
         ]);
 
-        return $result;
+        return $this->result;
     }
 }

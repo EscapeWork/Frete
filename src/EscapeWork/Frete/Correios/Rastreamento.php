@@ -1,9 +1,24 @@
 <?php namespace EscapeWork\Frete\Correios;
 
+use EscapeWork\Frete\Result;
+use EscapeWork\Frete\FreteException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ParseException;
 
 class Rastreamento
 {
+
+    /**
+     * Guzzle client
+     * @var GuzzleHttp\Client
+     */
+    protected $client;
+
+    /**
+     * Result
+     * @var EscapeWork\Frete\Result
+     */
+    protected $result;
 
     /**
      * Variaveis de configuração
@@ -15,9 +30,10 @@ class Rastreamento
         $resultado,
         $objetos;
 
-    public function __construct()
+    public function __construct(Client $client, Result $result)
     {
-        $client = new Client();
+        $this->client = $client;
+        $this->result = $result;
     }
 
     public function setUsuario($usuario)

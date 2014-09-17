@@ -1,6 +1,8 @@
 <?php namespace EscapeWork\Frete;
 
-class FreteException extends \Exception
+use Exception;
+
+class FreteException extends Exception
 {
-    
+
 }
