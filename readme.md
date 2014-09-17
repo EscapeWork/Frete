@@ -112,6 +112,7 @@ catch (FreteException $e) {
     // trate o erro adequadamente (e não escrevendo na tela)
     echo $e->getMessage();
 }
+```
 
 #### Buscando múltiplas encomendas
 
@@ -134,7 +135,17 @@ try {
 
 ***
 
+### Testes
+
+Caso queira rodar os testes em seu computador, clone o repositório, execute um `composer install --dev`, e depois execute o seguinte comando no terminal:
+
+```
+$ vendor/bin/phpspec run
+```
+
 ### Referências
+
+Referências utilizadas para o desenvolvimento.
 
 * [Cálculo de preço e prazo](http://www.correios.com.br/para-voce/correios-de-a-a-z/pdf/calculador-remoto-de-precos-e-prazos/manual-de-implementacao-do-calculo-remoto-de-precos-e-prazos)
 * [Rastreamento online](http://www.correios.com.br/para-voce/correios-de-a-a-z/pdf/rastreamento-de-objetos/Manual_SROXML_28fev14.pdf)
