@@ -29,7 +29,7 @@ class Rastreamento extends BaseCorreios
         'Usuario'   => '',
         'Senha'     => '',
         'Tipo'      => 'L',
-        'Resultado' => 'T',
+        'Resultado' => 'U',
         'Objetos'   => [],
     );
 
