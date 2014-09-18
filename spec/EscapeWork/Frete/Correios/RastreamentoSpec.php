@@ -40,7 +40,7 @@ class RastreamentoSpec extends ObjectBehavior
     function it_throw_an_frete_exception_with_invalid_server_response(Client $client, RastreamentoResult $result)
     {
         $response = new FakeRastreamentoResponse('ParseException');
-        $data     = ['Usuario' => '', 'Senha' => '', 'Tipo' => 'L', 'Resultado' => 'T', 'Objetos' => ''];
+        $data     = ['Usuario' => '', 'Senha' => '', 'Tipo' => 'L', 'Resultado' => 'U', 'Objetos' => ''];
         $client->post(Data::URL_RASTREAMENTO, ['body' => $data])->willReturn($response);
 
         $this->shouldThrow('EscapeWork\Frete\FreteException')->during('track');
@@ -49,7 +49,7 @@ class RastreamentoSpec extends ObjectBehavior
     function it_throw_an_frete_exception_with_error_in_response(Client $client, RastreamentoResult $result)
     {
         $response = new FakeRastreamentoResponse('error');
-        $data     = ['Usuario' => '', 'Senha' => '', 'Tipo' => 'L', 'Resultado' => 'T', 'Objetos' => ''];
+        $data     = ['Usuario' => '', 'Senha' => '', 'Tipo' => 'L', 'Resultado' => 'U', 'Objetos' => ''];
         $client->post(Data::URL_RASTREAMENTO, ['body' => $data])->willReturn($response);
 
         $this->shouldThrow('EscapeWork\Frete\FreteException')->during('track');
@@ -58,7 +58,7 @@ class RastreamentoSpec extends ObjectBehavior
     function it_can_track_with_one_object(Client $client, RastreamentoResult $result)
     {
         $response = new FakeRastreamentoResponse('object');
-        $data     = ['Usuario' => '', 'Senha' => '', 'Tipo' => 'L', 'Resultado' => 'T', 'Objetos' => ''];
+        $data     = ['Usuario' => '', 'Senha' => '', 'Tipo' => 'L', 'Resultado' => 'U', 'Objetos' => ''];
         $client->post(Data::URL_RASTREAMENTO, ['body' => $data])->willReturn($response);
 
         # result
@@ -70,7 +70,7 @@ class RastreamentoSpec extends ObjectBehavior
     function it_can_track_with_multiple_objects(Client $client, RastreamentoResult $result)
     {
         $response = new FakeRastreamentoResponse('objects');
-        $data     = ['Usuario' => '', 'Senha' => '', 'Tipo' => 'L', 'Resultado' => 'T', 'Objetos' => ''];
+        $data     = ['Usuario' => '', 'Senha' => '', 'Tipo' => 'L', 'Resultado' => 'U', 'Objetos' => ''];
         $client->post(Data::URL_RASTREAMENTO, ['body' => $data])->willReturn($response);
 
         $this->track()->shouldBeAnInstanceOf('EscapeWork\Frete\Collection');
