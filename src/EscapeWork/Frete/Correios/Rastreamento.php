@@ -84,7 +84,7 @@ class Rastreamento extends BaseCorreios
 
     public function track()
     {
-        $result = $this->client->post(DATA::URL_RASTREAMENTO, [
+        $result = $this->client->post(Data::URL_RASTREAMENTO, [
             'body' => $this->getData()
         ]);
 
