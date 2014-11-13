@@ -229,10 +229,10 @@ class PrecoPrazo extends BaseCorreios
     protected function getErrorMessage($data)
     {
         if (isset($data['cServico']['MsgErro'])) {
-            return $data['cServico']['MsgErro'];
+            return (string) is_array($data['cServico']['MsgErro']) ? array_shift($data['cServico']['MsgErro']) : $data['cServico']['MsgErro'];
         }
 
-        return $data['cServico'][0]['MsgErro'];
+        return (string) is_array($data['cServico'][0]['MsgErro']) ? array_shift($data['cServico'][0]['MsgErro']) : $data['cServico'][0]['MsgErro'];
     }
 
     protected function dataIsCollection($data)

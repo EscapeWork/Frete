@@ -39,6 +39,14 @@ class PrecoPrazoSpec extends ObjectBehavior
         $this->shouldThrow('EscapeWork\Frete\FreteException')->during('calculate');
     }
 
+    function it_can_calculate_with_error_response_and_array_error_message(Client $client, PrecoPrazoResult $result)
+    {
+        $response = new FakePrecoPrazoResponse('error-array');
+        $client->get('http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?nCdEmpresa=&sDsSenha=&nCdServico=40010%2C41106&sCepOrigem=&sCepDestino=&nVlPeso=&nCdFormato=1&nVlComprimento=&nVlAltura=&nVlLargura=&nVlDiametro=&sCdMaoPropria=N&nVlValorDeclarado=0&sCdAvisoRecebimento=N&StrRetorno=xml')->willReturn($response);
+
+        $this->shouldThrow('EscapeWork\Frete\FreteException')->during('calculate');
+    }
+
     function it_throw_an_exception_with_invalid_server_response(Client $client, PrecoPrazoResult $result)
     {
         $response = new FakePrecoPrazoResponse('exception');
@@ -86,6 +94,14 @@ class FakePrecoPrazoResponse
                     'cServico' => [
                         'Erro'    => '1',
                         'MsgErro' => 'fucking errors!',
+                    ]
+                ]));
+
+            case 'error-array':
+                return json_decode(json_encode([
+                    'cServico' => [
+                        'Erro'    => '1',
+                        'MsgErro' => ['fucking errors with array!'],
                     ]
                 ]));
 
