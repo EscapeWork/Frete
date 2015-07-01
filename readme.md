@@ -1,6 +1,6 @@
-# EscapeWork/Frete
+# hugofcampos/Frete
 
-[![Build Status](https://secure.travis-ci.org/EscapeWork/Frete.png)](http://travis-ci.org/EscapeWork/Frete) [![Latest Stable Version](https://poser.pugx.org/escapework/frete/v/stable.png)](https://packagist.org/packages/escapework/frete) [![Total Downloads](https://poser.pugx.org/escapework/frete/downloads.png)](https://packagist.org/packages/escapework/frete)
+[![Build Status](https://secure.travis-ci.org/hugofcampos/Frete.png)](http://travis-ci.org/hugofcampos/Frete) [![Latest Stable Version](https://poser.pugx.org/escapework/frete/v/stable.png)](https://packagist.org/packages/hugofcampos/frete)
 
 ## Instalação
 
@@ -40,6 +40,40 @@ try {
     echo $result['cServico']['PrazoEntrega'];
 
     var_dump($result); // debugge o resultado!
+}
+catch (FreteException $e) {
+    // trate o erro adequadamente (e não escrevendo na tela)
+    echo $e->getMessage();
+}
+```
+
+## Usando o Frete.co
+
+```php
+use EscapeWork\Frete\Freteco\PrecoPrazo;
+use EscapeWork\Frete\Freteco\Data;
+use EscapeWork\Frete\FreteException;
+
+$frete = new PrecoPrazo();
+$frete->setCodigoServico(Data::SEDEX)
+      ->setCodigoEmpresa('Codigo')      # opcional
+      ->setSenha('Senha')               # opcional
+      ->setCepOrigem('cep de origem')   # apenas numeros, sem hifen(-)
+      ->setCepDestino('cep de destino') # apenas numeros, sem hifen(-)
+      ->setComprimento(30)              # obrigatorio
+      ->setAltura(30)                   # obrigatorio
+      ->setLargura(30)                  # obrigatorio
+      ->setDiametro(30)                 # obrigatorio
+      ->setPeso(0.5);                   # obrigatorio
+      ->setApiKey('xyz');               # obrigatorio
+
+try {
+    $result = $frete->calculate();
+
+    echo $result['cServico']['Valor'];
+    echo $result['cServico']['PrazoEntrega'];
+
+    var_dump($result);
 }
 catch (FreteException $e) {
     // trate o erro adequadamente (e não escrevendo na tela)

@@ -1,5 +1,5 @@
 {
-    "name": "escapework/frete",
+    "name": "hugofcampos/frete",
     "description": "Library pra cálculo de frete",
     "type": "library",
     "license": "MIT",
@@ -12,6 +12,10 @@
         {
             "name": "Eduardo Henrique Kasper",
             "email": "ehkasper@gmail.com"
+        },
+        {
+            "name": "Hugo Campos",
+            "email": "hugofcampos@gmail.com"  
         }
     ],
 

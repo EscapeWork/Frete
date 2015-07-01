@@ -183,7 +183,7 @@ class PrecoPrazo extends BaseCorreios
         }
     }
 
-    private function buildUrl()
+    protected function buildUrl()
     {
         return Data::URL_PRECO_PRAZO . '?' . $this->getParameters();
     }
