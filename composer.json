@@ -1,6 +1,6 @@
 {
-    "name": "hugofcampos/frete",
-    "description": "Library pra cálculo de frete",
+    "name": "escapework/frete",
+    "description": "Sdk para cálculo de frete",
     "type": "library",
     "license": "MIT",
 

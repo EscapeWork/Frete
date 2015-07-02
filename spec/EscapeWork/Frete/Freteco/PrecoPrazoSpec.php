@@ -19,7 +19,7 @@ class PrecoPrazoSpec extends ObjectBehavior
     function it_can_calculate_with_one_result(Client $client, PrecoPrazoResult $result)
     {
         $response = new FakePrecoPrazoResponse('preco');
-        $client->get('https://frete.co/api/v1/carriers/correios?nCdEmpresa=&sDsSenha=&nCdServico=40010%2C41106&sCepOrigem=&sCepDestino=&nVlPeso=&nCdFormato=1&nVlComprimento=&nVlAltura=&nVlLargura=&nVlDiametro=&sCdMaoPropria=N&nVlValorDeclarado=0&sCdAvisoRecebimento=N&apikey=&StrRetorno=xml')->willReturn($response);
+        $client->get('https://frete.co/api/v1/carriers/correios.aspx?nCdEmpresa=&sDsSenha=&nCdServico=40010%2C41106&sCepOrigem=&sCepDestino=&nVlPeso=&nCdFormato=1&nVlComprimento=&nVlAltura=&nVlLargura=&nVlDiametro=&sCdMaoPropria=N&nVlValorDeclarado=0&sCdAvisoRecebimento=N&apikey=&StrRetorno=xml')->willReturn($response);
 
         $result->fill(Argument::any())->shouldBeCalled();
         $this->calculate()->shouldBeAnInstanceOf('EscapeWork\Frete\Correios\PrecoPrazoResult');

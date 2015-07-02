@@ -1,6 +1,6 @@
 # hugofcampos/Frete
 
-[![Build Status](https://secure.travis-ci.org/hugofcampos/Frete.png)](http://travis-ci.org/hugofcampos/Frete) [![Latest Stable Version](https://poser.pugx.org/escapework/frete/v/stable.png)](https://packagist.org/packages/hugofcampos/frete)
+[![Build Status](https://secure.travis-ci.org/hugofcampos/Frete.png)](http://travis-ci.org/hugofcampos/Frete) [![Latest Stable Version](https://poser.pugx.org/hugofcampos/frete/v/stable.png)](https://packagist.org/packages/hugofcampos/frete)
 
 ## Instalação
 
@@ -8,8 +8,14 @@ Instalação disponível via Composer.
 
 ```
 {
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "http://github.com/hugofcampos/Frete"
+        }
+    ],
     "require": {
-        "escapework/frete": "0.2.*"
+        "escapework/frete": "0.3.*"
     }
 }
 ```
