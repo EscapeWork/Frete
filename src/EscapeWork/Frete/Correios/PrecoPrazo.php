@@ -219,6 +219,10 @@ class PrecoPrazo extends BaseCorreios
 
     protected function hasError($data)
     {
+        if (empty($data)) {
+            return true;
+        }
+
         if (isset($data['cServico']['Erro'])) {
             return ! in_array($data['cServico']['Erro'], $this->successfulCodes);
         }
