@@ -6,7 +6,8 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use EscapeWork\Frete\Correios\PrecoPrazoResult;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ParseException;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request;
 
 class PrecoPrazoSpec extends ObjectBehavior
 {
@@ -36,11 +37,11 @@ class FakePrecoPrazoResponse
         $this->type = $type;
     }
 
-    public function xml()
+    public function getBody()
     {
         switch ($this->type) {
             case 'exception':
-                throw new ParseException;
+                throw new RequestException('x', new Request('x','x'));
 
             case 'error':
                 return json_decode(json_encode([

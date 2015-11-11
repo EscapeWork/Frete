@@ -3,7 +3,7 @@
 use EscapeWork\Frete\FreteException;
 use EscapeWork\Frete\Collection;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ParseException;
+use GuzzleHttp\Exception\RequestException;
 use InvalidArgumentException;
 
 class Rastreamento extends BaseCorreios
@@ -89,10 +89,10 @@ class Rastreamento extends BaseCorreios
         ]);
 
         try {
-            $xml = $result->xml();
+            $xml = $result->getBody();
 
             return $this->result($xml);
-        } catch (ParseException $e) {
+        } catch (RequestException $e) {
             throw new FreteException('Houve um erro ao buscar os dados. Verifique se todos os dados estão corretos', 1);
         }
     }
@@ -100,6 +100,10 @@ class Rastreamento extends BaseCorreios
     protected function result($data)
     {
         $data = $this->xmlToArray($data);
+
+        if (empty($data)) {
+            throw new FreteException("Houve um erro ao buscar os dados");
+        }
 
         if (! isset($data['error'])) {
             if (isset($data['objeto']['numero'])) {
