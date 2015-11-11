@@ -15,12 +15,12 @@
         },
         {
             "name": "Hugo Campos",
-            "email": "hugofcampos@gmail.com"  
+            "email": "hugofcampos@gmail.com"
         }
     ],
 
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.0",
         "guzzlehttp/guzzle": "6.*"
     },
 
