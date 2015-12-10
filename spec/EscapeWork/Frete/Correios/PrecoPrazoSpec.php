@@ -91,35 +91,88 @@ class FakePrecoPrazoResponse
                 throw new RequestException('x', new Request('x','x'));
 
             case 'error':
-                return json_decode(json_encode([
-                    'cServico' => [
-                        'Erro'    => '1',
-                        'MsgErro' => 'fucking errors!',
+
+                return new FakePrecoPrazoStream(
+                    [
+                        'cServico' => [
+                            'Erro'    => '1',
+                            'MsgErro' => 'fucking errors!',
+                        ]
                     ]
-                ]));
+                );
 
             case 'error-array':
-                return json_decode(json_encode([
-                    'cServico' => [
-                        'Erro'    => '1',
-                        'MsgErro' => ['fucking errors with array!'],
+                return new FakePrecoPrazoStream(
+                    [
+                        'cServico' => [
+                            'Erro'    => '1',
+                            'MsgErro' => ['fucking errors with array!'],
+                        ]
                     ]
-                ]));
+                );
 
             case 'preco':
-                return json_decode(json_encode([
-                    'cServico' => [
-                        'Codigo' => 1,
-                        'Erro'   => '0',
+                return new FakePrecoPrazoStream(
+                    [
+                        'cServico' => [
+                            'Codigo' => 1,
+                            'Erro'   => '0',
+                        ]
                     ]
-                ]));
+                );
 
             case 'precos':
-                return json_decode(json_encode([
-                    'cServico' => [
-                        ['Erro' => '0'],
+                return new FakePrecoPrazoStream(
+                    [
+                        'cServico' => [
+                            ['Erro' => '0'],
+                        ]
                     ]
-                ]));
+                );
         }
     }
+}
+
+class FakePrecoPrazoStream implements \Psr\Http\Message\StreamInterface
+{
+
+    protected $content = '';
+
+    public function __construct($content)
+    {
+        $this->content = $content;
+    }
+
+    public function getContents()
+    {
+        return $this->content;
+    }
+
+    public function __toString(){}
+
+    public function close(){}
+
+    public function detach(){}
+
+    public function getSize(){}
+
+    public function tell(){}
+
+    public function eof(){}
+
+    public function isSeekable(){}
+
+    public function seek($offset, $whence = SEEK_SET){}
+
+    public function rewind(){}
+
+    public function isWritable(){}
+
+    public function write($string){}
+
+    public function isReadable(){}
+
+    public function read($length){}
+
+    public function getMetadata($key = null){}
 }

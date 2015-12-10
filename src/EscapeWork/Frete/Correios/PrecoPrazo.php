@@ -175,7 +175,7 @@ class PrecoPrazo extends BaseCorreios
         $result = $this->client->get($this->buildUrl());
 
         try {
-            $xml = $result->getBody();
+            $xml = $result->getBody()->getContents();
 
             return $this->result($xml);
         } catch (RequestException $e) {
@@ -204,7 +204,7 @@ class PrecoPrazo extends BaseCorreios
     protected function result($data)
     {
         $data = $this->xmlToArray($data);
-        
+
         if ($this->hasError($data)) {
             throw new FreteException($this->getErrorMessage($data), 0);
         }
