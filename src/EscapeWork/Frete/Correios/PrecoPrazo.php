@@ -3,7 +3,7 @@
 use EscapeWork\Frete\FreteException;
 use EscapeWork\Frete\Collection;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ParseException;
+use GuzzleHttp\Exception\RequestException;
 use InvalidArgumentException;
 
 class PrecoPrazo extends BaseCorreios
@@ -175,15 +175,15 @@ class PrecoPrazo extends BaseCorreios
         $result = $this->client->get($this->buildUrl());
 
         try {
-            $xml = $result->xml();
+            $xml = $result->getBody()->getContents();
 
             return $this->result($xml);
-        } catch (ParseException $e) {
+        } catch (RequestException $e) {
             throw new FreteException('Houve um erro ao buscar os dados. Verifique se todos os dados estão corretos', 1);
         }
     }
 
-    private function buildUrl()
+    protected function buildUrl()
     {
         return Data::URL_PRECO_PRAZO . '?' . $this->getParameters();
     }
@@ -219,6 +219,10 @@ class PrecoPrazo extends BaseCorreios
 
     protected function hasError($data)
     {
+        if (empty($data)) {
+            return true;
+        }
+
         if (isset($data['cServico']['Erro'])) {
             return ! in_array($data['cServico']['Erro'], $this->successfulCodes);
         }
@@ -228,6 +232,10 @@ class PrecoPrazo extends BaseCorreios
 
     protected function getErrorMessage($data)
     {
+        if (empty($data)) {
+            throw new FreteException("Método de envio inválido");
+        }
+
         if (isset($data['cServico']['MsgErro'])) {
             return (string) is_array($data['cServico']['MsgErro']) ? array_shift($data['cServico']['MsgErro']) : $data['cServico']['MsgErro'];
         }

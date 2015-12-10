@@ -1,6 +1,6 @@
 {
     "name": "escapework/frete",
-    "description": "Library pra cálculo de frete",
+    "description": "Sdk para cálculo de frete",
     "type": "library",
     "license": "MIT",
 
@@ -12,12 +12,16 @@
         {
             "name": "Eduardo Henrique Kasper",
             "email": "ehkasper@gmail.com"
+        },
+        {
+            "name": "Hugo Campos",
+            "email": "hugofcampos@gmail.com"
         }
     ],
 
     "require": {
-        "php": ">=5.4.0",
-        "guzzlehttp/guzzle": "~4.0"
+        "php": ">=5.5.0",
+        "guzzlehttp/guzzle": "6.*"
     },
 
     "require-dev": {

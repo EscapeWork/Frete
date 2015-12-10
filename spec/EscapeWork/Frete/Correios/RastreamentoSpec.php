@@ -7,7 +7,8 @@ use Prophecy\Argument;
 use EscapeWork\Frete\Correios\Data;
 use EscapeWork\Frete\Correios\RastreamentoResult;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ParseException;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request;
 
 class RastreamentoSpec extends ObjectBehavior
 {
@@ -39,7 +40,7 @@ class RastreamentoSpec extends ObjectBehavior
 
     function it_throw_an_frete_exception_with_invalid_server_response(Client $client, RastreamentoResult $result)
     {
-        $response = new FakeRastreamentoResponse('ParseException');
+        $response = new FakeRastreamentoResponse('exception');
         $data     = ['Usuario' => '', 'Senha' => '', 'Tipo' => 'L', 'Resultado' => 'U', 'Objetos' => ''];
         $client->post(Data::URL_RASTREAMENTO, ['body' => $data])->willReturn($response);
 
@@ -87,11 +88,11 @@ class FakeRastreamentoResponse
         $this->type = $type;
     }
 
-    public function xml()
+    public function getBody()
     {
         switch ($this->type) {
-            case 'ParseException':
-                throw new ParseException;
+            case 'exception':
+                throw new RequestException('x', new Request('x','x'));
                 break;
 
             case 'error':
