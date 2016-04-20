@@ -1,4 +1,6 @@
-<?php namespace EscapeWork\Frete;
+<?php
+
+namespace EscapeWork\Frete;
 
 use Exception;
 

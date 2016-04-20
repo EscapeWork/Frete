@@ -1,4 +1,6 @@
-<?php namespace EscapeWork\Frete\Correios;
+<?php
+
+namespace EscapeWork\Frete\Correios;
 
 use EscapeWork\Frete\FreteException;
 use EscapeWork\Frete\Collection;

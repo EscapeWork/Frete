@@ -1,4 +1,6 @@
-<?php namespace EscapeWork\Frete\Correios;
+<?php
+
+namespace EscapeWork\Frete\Correios;
 
 use EscapeWork\Frete\FreteException;
 use EscapeWork\Frete\Collection;
@@ -24,19 +26,19 @@ class PrecoPrazo extends BaseCorreios
     /**
      * Códigos de erro aceitos
      */
-    protected $successfulCodes = array('0', '010');
+    protected $successfulCodes = ['0', '010'];
 
     /**
      * Formatos validos
      * @var array
      */
-    protected $formatosValidos = array(1, 2, 3);
+    protected $formatosValidos = [1, 2, 3];
 
     /**
      * Data
      * @var array
      */
-    protected $data = array(
+    protected $data = [
         'nCdEmpresa'          => '',                 # Seu código administrativo junto à ECT
         'sDsSenha'            => '',                 # Senha para acesso ao serviço
         'nCdServico'          => ['40010', '41106'], # Código do serviço - Ver classe EscapeWork\Frete\Correios\Data
@@ -51,7 +53,7 @@ class PrecoPrazo extends BaseCorreios
         'sCdMaoPropria'       => 'N',                # S ou N; Indica se a encomenda será entregue com o serviço adicional mão própria;
         'nVlValorDeclarado'   => 0,                  # Valor em Reais; Indica se a encomenda será entregue com o serviço adicional valor declarado;
         'sCdAvisoRecebimento' => 'N',                # S ou N; Indica se a encomenda será entregue com o serviço adicional aviso de recebimento.
-    );
+    ];
 
     /**
      * Tipo de retorno do conteúdo

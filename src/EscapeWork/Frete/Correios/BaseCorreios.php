@@ -1,4 +1,6 @@
-<?php namespace EscapeWork\Frete\Correios;
+<?php
+
+namespace EscapeWork\Frete\Correios;
 
 class BaseCorreios
 {
