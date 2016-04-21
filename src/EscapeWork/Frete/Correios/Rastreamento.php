@@ -5,8 +5,7 @@ namespace EscapeWork\Frete\Correios;
 use EscapeWork\Frete\FreteException;
 use EscapeWork\Frete\Collection;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ParseException;
-use InvalidArgumentException;
+use Exception, InvalidArgumentException;
 
 class Rastreamento extends BaseCorreios
 {
@@ -86,15 +85,15 @@ class Rastreamento extends BaseCorreios
 
     public function track()
     {
-        $result = $this->client->post(Data::URL_RASTREAMENTO, [
-            'body' => $this->getData()
+        $response = $this->client->post(Data::URL_RASTREAMENTO, [
+            'form_params' => $this->getData()
         ]);
 
         try {
-            $xml = $result->xml();
+            $xml = simplexml_load_string($response->getBody()->getContents());
 
             return $this->result($xml);
-        } catch (ParseException $e) {
+        } catch (Exception $e) {
             throw new FreteException('Houve um erro ao buscar os dados. Verifique se todos os dados estão corretos', 1);
         }
     }

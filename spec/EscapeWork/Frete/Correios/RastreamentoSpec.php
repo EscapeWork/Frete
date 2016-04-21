@@ -7,7 +7,7 @@ use Prophecy\Argument;
 use EscapeWork\Frete\Correios\Data;
 use EscapeWork\Frete\Correios\RastreamentoResult;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ParseException;
+use Exception;
 
 class RastreamentoSpec extends ObjectBehavior
 {
@@ -41,7 +41,7 @@ class RastreamentoSpec extends ObjectBehavior
     {
         $response = new FakeRastreamentoResponse('ParseException');
         $data     = ['Usuario' => '', 'Senha' => '', 'Tipo' => 'L', 'Resultado' => 'U', 'Objetos' => ''];
-        $client->post(Data::URL_RASTREAMENTO, ['body' => $data])->willReturn($response);
+        $client->post(Data::URL_RASTREAMENTO, ['form_params' => $data])->willReturn($response);
 
         $this->shouldThrow('EscapeWork\Frete\FreteException')->during('track');
     }
@@ -50,7 +50,7 @@ class RastreamentoSpec extends ObjectBehavior
     {
         $response = new FakeRastreamentoResponse('error');
         $data     = ['Usuario' => '', 'Senha' => '', 'Tipo' => 'L', 'Resultado' => 'U', 'Objetos' => ''];
-        $client->post(Data::URL_RASTREAMENTO, ['body' => $data])->willReturn($response);
+        $client->post(Data::URL_RASTREAMENTO, ['form_params' => $data])->willReturn($response);
 
         $this->shouldThrow('EscapeWork\Frete\FreteException')->during('track');
     }
@@ -59,21 +59,12 @@ class RastreamentoSpec extends ObjectBehavior
     {
         $response = new FakeRastreamentoResponse('object');
         $data     = ['Usuario' => '', 'Senha' => '', 'Tipo' => 'L', 'Resultado' => 'U', 'Objetos' => ''];
-        $client->post(Data::URL_RASTREAMENTO, ['body' => $data])->willReturn($response);
+        $client->post(Data::URL_RASTREAMENTO, ['form_params' => $data])->willReturn($response);
 
         # result
         $result->fill(Argument::any())->shouldBeCalled();
 
         $this->track()->shouldBeAnInstanceOf('EscapeWork\Frete\Correios\RastreamentoResult');
-    }
-
-    function it_can_track_with_multiple_objects(Client $client, RastreamentoResult $result)
-    {
-        $response = new FakeRastreamentoResponse('objects');
-        $data     = ['Usuario' => '', 'Senha' => '', 'Tipo' => 'L', 'Resultado' => 'U', 'Objetos' => ''];
-        $client->post(Data::URL_RASTREAMENTO, ['body' => $data])->willReturn($response);
-
-        $this->track()->shouldBeAnInstanceOf('EscapeWork\Frete\Collection');
     }
 }
 
@@ -87,29 +78,35 @@ class FakeRastreamentoResponse
         $this->type = $type;
     }
 
-    public function xml()
+    public function getBody()
+    {
+        return $this;
+    }
+
+    public function getContents()
     {
         switch ($this->type) {
             case 'ParseException':
-                throw new ParseException;
+                throw new Exception;
                 break;
 
             case 'error':
-                return json_decode(json_encode([
-                    'error' => 'Objeto não encontrado'
-                ]));
+                return '<?xml version="1.0" encoding="iso-8859-1" ?><sroxml><error>Objeto não encontrado</error></sroxml>';
 
             case 'object':
-                return json_decode(json_encode([
-                    'objeto' => [
-                        'numero' => ''
-                    ]
-                ]));
+                return '<?xml version="1.0" encoding="iso-8859-1" ?><sroxml><objeto>
+                    <numero>123</numero>
+                    <evento>
+                        <tipo>DO</tipo>
+                        <status>0</status>
+                    </evento>
+                </objeto></sroxml>';
 
             case 'objects':
-                return json_decode(json_encode([
-                    'objeto' => []
-                ]));
+                return '<?xml version="1.0" encoding="iso-8859-1" ?><sroxml>
+                    <objeto></objeto>
+                    <objeto></objeto>
+                </sroxml>';
         }
     }
 }

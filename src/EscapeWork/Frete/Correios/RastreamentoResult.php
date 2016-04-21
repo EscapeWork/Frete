@@ -39,8 +39,8 @@ class RastreamentoResult extends Result
 
     protected function checkIfIsDelivered($data)
     {
-        $tipos  = array('BDE', 'BDI', 'BDR');
-        $status = array('0', '1', '01', '00');
+        $tipos  = ['BDE', 'BDI', 'BDR'];
+        $status = ['0', '1', '01', '00'];
 
         if (in_array($data['evento']['tipo'], $tipos) && in_array($data['evento']['status'], $status)) {
             $this->delivered = true;

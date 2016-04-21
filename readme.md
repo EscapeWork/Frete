@@ -108,6 +108,7 @@ try {
     echo $result['evento']['descricao'];
 
     var_dump($result); // debugar, debugar!
+}
 catch (FreteException $e) {
     // trate o erro adequadamente (e não escrevendo na tela)
     echo $e->getMessage();

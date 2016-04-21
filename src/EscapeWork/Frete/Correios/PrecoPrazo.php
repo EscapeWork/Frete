@@ -5,8 +5,7 @@ namespace EscapeWork\Frete\Correios;
 use EscapeWork\Frete\FreteException;
 use EscapeWork\Frete\Collection;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ParseException;
-use InvalidArgumentException;
+use Exception, InvalidArgumentException;
 
 class PrecoPrazo extends BaseCorreios
 {
@@ -174,13 +173,13 @@ class PrecoPrazo extends BaseCorreios
 
     public function calculate()
     {
-        $result = $this->client->get($this->buildUrl());
+        $response = $this->client->get($this->buildUrl());
 
         try {
-            $xml = $result->xml();
+            $xml = simplexml_load_string($response->getBody()->getContents());
 
             return $this->result($xml);
-        } catch (ParseException $e) {
+        } catch (Exception $e) {
             throw new FreteException('Houve um erro ao buscar os dados. Verifique se todos os dados estão corretos', 1);
         }
     }
