@@ -6,10 +6,10 @@
 
 Instalação disponível via Composer.
 
-```
+```json
 {
     "require": {
-        "escapework/frete": "0.2.*"
+        "escapework/frete": "0.3.*"
     }
 }
 ```
