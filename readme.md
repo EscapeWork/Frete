@@ -4,7 +4,7 @@
 
 ## Instalação
 
-Instalação disponível via Composer.
+Instalação via composer.
 
 ```json
 {
