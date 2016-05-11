@@ -206,8 +206,12 @@ class PrecoPrazo extends BaseCorreios
     {
         $data = $this->xmlToArray($data);
 
+        # se tiver um erro, da a mensagem de erro
         if ($this->hasError($data)) {
-            throw new FreteException($this->getErrorMessage($data), 0);
+            throw new FreteException(
+                $this->getErrorMessage($data),
+                $this->getErrorCode($data)
+            );
         }
 
         if (! $this->dataIsCollection($data)) {
@@ -225,6 +229,15 @@ class PrecoPrazo extends BaseCorreios
         }
 
         return ! in_array($data['cServico'][0]['Erro'], $this->successfulCodes);
+    }
+
+    protected function getErrorCode($data)
+    {
+        if (isset($data['cServico']['Erro'])) {
+            return is_array($data['cServico']['Erro']) ? array_shift($data['cServico']['Erro']) : $data['cServico']['Erro'];
+        }
+
+        return is_array($data['cServico'][0]['Erro']) ? array_shift($data['cServico'][0]['Erro']) : $data['cServico'][0]['Erro'];
     }
 
     protected function getErrorMessage($data)

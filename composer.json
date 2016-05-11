@@ -25,14 +25,14 @@
     },
 
     "autoload": {
-        "psr-0": {
-            "EscapeWork\\Frete": "src"
+        "psr-4": {
+            "EscapeWork\\Frete\\": "src"
         }
     },
 
     "extra": {
         "branch-alias": {
-            "dev-master": "0.3-dev"
+            "dev-master": "0.4-dev"
         }
     }
 }

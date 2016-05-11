@@ -1,0 +1,9 @@
+bootstrap: bootstrap.php
+code_generation: false
+
+suites:
+    frete:
+        namespace: EscapeWork\Frete
+        psr4_prefix: EscapeWork\Frete
+        src_path: %paths.config%/src
+        spec_path: %paths.config%

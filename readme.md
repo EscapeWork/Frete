@@ -44,6 +44,8 @@ try {
 catch (FreteException $e) {
     // trate o erro adequadamente (e não escrevendo na tela)
     echo $e->getMessage();
+    echo $e->getCode(); // este código é o código de erro dos correios
+                        // pode ser usado pra dar mensagens como CEP inválido para o cliente
 }
 ```
 
