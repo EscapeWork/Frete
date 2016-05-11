@@ -9,7 +9,7 @@ Instalação via composer.
 ```json
 {
     "require": {
-        "escapework/frete": "0.3.*"
+        "escapework/frete": "0.4.*"
     }
 }
 ```
