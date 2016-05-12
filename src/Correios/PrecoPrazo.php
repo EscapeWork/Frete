@@ -174,14 +174,9 @@ class PrecoPrazo extends BaseCorreios
     public function calculate()
     {
         $response = $this->client->get($this->buildUrl());
+        $xml      = simplexml_load_string($response->getBody()->getContents());
 
-        try {
-            $xml = simplexml_load_string($response->getBody()->getContents());
-
-            return $this->result($xml);
-        } catch (Exception $e) {
-            throw new FreteException('Houve um erro ao buscar os dados. Verifique se todos os dados estão corretos', 1);
-        }
+        return $this->result($xml);
     }
 
     private function buildUrl()
@@ -208,10 +203,10 @@ class PrecoPrazo extends BaseCorreios
 
         # se tiver um erro, da a mensagem de erro
         if ($this->hasError($data)) {
-            throw new FreteException(
-                $this->getErrorMessage($data),
-                $this->getErrorCode($data)
-            );
+            $exception = new FreteException($this->getErrorMessage($data));
+            $exception->setErrorCode($this->getErrorCode($data));
+
+            throw $exception;
         }
 
         if (! $this->dataIsCollection($data)) {
