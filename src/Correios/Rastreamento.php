@@ -79,6 +79,7 @@ class Rastreamento extends BaseCorreios
 
         try {
             $client   = new SoapClient(Data::URL_RASTREAMENTO);
+            $client   = new SoapClient(__DIR__.'/../../resources/Rastro.wsdl');
             $response = $client->buscaEventos($this->getData());
 
             return $this->result($response->return);

@@ -6,7 +6,6 @@ use ArrayAccess;
 
 class Result implements ArrayAccess
 {
-
     /**
      * Attributes
      */
