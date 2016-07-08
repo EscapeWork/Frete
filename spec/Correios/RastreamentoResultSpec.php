@@ -15,13 +15,13 @@ class RastreamentoResultSpec extends ObjectBehavior
 
     function it_can_set_as_delivered_in_fill()
     {
-        $this->fill(['evento' => ['tipo' => 'BDE', 'status' => '01']]);
+        $this->fill((object) ['evento' => (object) ['tipo' => 'BDE', 'status' => '01']]);
         $this->delivered()->shouldBe(true);
     }
 
     function it_can_set_as_in_transit_in_fill()
     {
-        $this->fill(['evento' => ['tipo' => 'DO', 'status' => '01']]);
+        $this->fill((object) ['evento' => (object) ['tipo' => 'DO', 'status' => '01']]);
         $this->inTransit()->shouldBe(true);
     }
 }
