@@ -42,14 +42,14 @@ class RastreamentoResult extends Result
         $tipos  = ['BDE', 'BDI', 'BDR'];
         $status = ['0', '1', '01', '00'];
 
-        if (in_array($data['evento']['tipo'], $tipos) && in_array($data['evento']['status'], $status)) {
+        if (in_array($data->evento->tipo, $tipos) && in_array($data->evento->status, $status)) {
             $this->delivered = true;
         }
     }
 
     protected function checkIfIsInTransit($data)
     {
-        if ($data['evento']['tipo'] == 'DO') {
+        if ($data->evento->tipo == 'DO') {
             $this->inTransit = true;
         }
     }
