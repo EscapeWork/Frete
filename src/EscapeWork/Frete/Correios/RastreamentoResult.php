@@ -1,4 +1,6 @@
-<?php namespace EscapeWork\Frete\Correios;
+<?php
+
+namespace EscapeWork\Frete\Correios;
 
 use EscapeWork\Frete\Result;
 
@@ -37,17 +39,17 @@ class RastreamentoResult extends Result
 
     protected function checkIfIsDelivered($data)
     {
-        $tipos  = array('BDE', 'BDI', 'BDR');
-        $status = array('0', '1', '01', '00');
+        $tipos  = ['BDE', 'BDI', 'BDR'];
+        $status = ['0', '1', '01', '00'];
 
-        if (in_array($data['evento']['tipo'], $tipos) && in_array($data['evento']['status'], $status)) {
+        if (in_array($data->evento->tipo, $tipos) && in_array($data->evento->status, $status)) {
             $this->delivered = true;
         }
     }
 
     protected function checkIfIsInTransit($data)
     {
-        if ($data['evento']['tipo'] == 'DO') {
+        if ($data->evento->tipo == 'DO') {
             $this->inTransit = true;
         }
     }
