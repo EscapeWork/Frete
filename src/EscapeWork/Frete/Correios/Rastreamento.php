@@ -77,7 +77,7 @@ class Rastreamento extends BaseCorreios
         ini_set('default_socket_timeout', 1);
 
         try {
-            $client   = new SoapClient(Data::URL_RASTREAMENTO);
+            $client   = new SoapClient(__DIR__.'/../../../stubs/Rastro.wsdl');
             $response = $client->buscaEventos($this->getData());
 
             return $this->result($response->return);
