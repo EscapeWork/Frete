@@ -9,7 +9,7 @@ class Data
      * Urls
      */
     const URL_PRECO_PRAZO  = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx';
-    const URL_RASTREAMENTO = 'http://websro.correios.com.br/sro_bin/sroii_xml.eventos';
+    const URL_RASTREAMENTO = 'https://webservice.correios.com.br/service/rastro/Rastro.wsdl';
 
     /**
      * Sedex varejo

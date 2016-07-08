@@ -85,6 +85,10 @@ class Rastreamento extends BaseCorreios
 
     public function track()
     {
+        $client   = new SoapClient(Data::URL_RASTREAMENTO);
+        $response = $client->buscaEventos($this->getData());
+        var_dump($response); die;
+
         $response = $this->client->post(Data::URL_RASTREAMENTO, [
             'form_params' => $this->getData()
         ]);
