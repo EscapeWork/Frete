@@ -10,13 +10,6 @@ use SoapClient;
 
 class Rastreamento extends BaseCorreios
 {
-
-    /**
-     * Guzzle client
-     * @var GuzzleHttp\Client
-     */
-    protected $client;
-
     /**
      * Result
      * @var EscapeWork\Frete\Correios\RastreamentoResult
@@ -125,7 +118,7 @@ class Rastreamento extends BaseCorreios
     {
         $objects = new Collection;
 
-        foreach ($data['objeto'] as $objeto) {
+        foreach ($data->objeto as $objeto) {
             $result = new RastreamentoResult();
             $result->fill($objeto);
 
