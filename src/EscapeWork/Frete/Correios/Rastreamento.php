@@ -4,7 +4,6 @@ namespace EscapeWork\Frete\Correios;
 
 use EscapeWork\Frete\FreteException;
 use EscapeWork\Frete\Collection;
-use GuzzleHttp\Client;
 use Exception, InvalidArgumentException;
 use SoapClient;
 
