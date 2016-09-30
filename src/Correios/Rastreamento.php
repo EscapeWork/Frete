@@ -20,13 +20,13 @@ class Rastreamento extends BaseCorreios
      * Data
      * @var array
      */
-    protected $data = array(
+    protected $data = [
         'Usuario'   => '',
         'Senha'     => '',
         'Tipo'      => 'L',
         'Resultado' => 'U',
         'Objetos'   => [],
-    );
+    ];
 
     public function __construct(RastreamentoResult $result = null)
     {
@@ -49,7 +49,7 @@ class Rastreamento extends BaseCorreios
 
     public function setTipo($tipo)
     {
-        if (! in_array($tipo, array('L', 'F'))) {
+        if (! in_array($tipo, ['L', 'F'])) {
             throw new InvalidArgumentException('Apenas os valores L ou F são suportados para o tipo');
         }
 
@@ -59,7 +59,7 @@ class Rastreamento extends BaseCorreios
 
     public function setResultado($resultado)
     {
-        if (! in_array($resultado, array('T', 'U'))) {
+        if (! in_array($resultado, ['T', 'U'])) {
             throw new InvalidArgumentException('Apenas os valores T ou U são suportados para o tipo');
         }
 
@@ -78,7 +78,6 @@ class Rastreamento extends BaseCorreios
         ini_set('default_socket_timeout', 1);
 
         try {
-            $client   = new SoapClient(Data::URL_RASTREAMENTO);
             $client   = new SoapClient(__DIR__.'/../../resources/Rastro.wsdl');
             $response = $client->buscaEventos($this->getData());
 

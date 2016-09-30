@@ -137,6 +137,35 @@ try {
 }
 ```
 
+## Consulta de CEP pelo webservice dos correios
+
+Você também pode buscar o endereço através de um CEP.
+
+```php
+use EscapeWork\Frete\Correios\ConsultaCEP;
+use EscapeWork\Frete\FreteException;
+
+try {
+    $consulta = new ConsultaCEP;
+    $result   = $consulta->setCep(93320080)
+                         ->find();
+
+    echo $result->bairro;
+    echo $result->cep;
+    echo $result->cidade;
+    echo $result->complemento;
+    echo $result->complemento2;
+    echo $result->end;
+    echo $result->uf;
+
+    var_dump($result); // debugar, debugar!
+}
+catch (FreteException $e) {
+    // trate o erro adequadamente (e não escrevendo na tela)
+    echo $e->getMessage();
+}
+```
+
 ***
 
 ### Testes
@@ -153,15 +182,8 @@ Referências utilizadas para o desenvolvimento.
 
 * [Cálculo de preço e prazo](http://www.correios.com.br/para-voce/correios-de-a-a-z/pdf/calculador-remoto-de-precos-e-prazos/manual-de-implementacao-do-calculo-remoto-de-precos-e-prazos)
 * [Rastreamento online](http://www.correios.com.br/para-voce/correios-de-a-a-z/pdf/rastreamento-de-objetos/Manual_SROXML_28fev14.pdf)
+* [SIGEP](http://www.corporativo.correios.com.br/encomendas/sigepweb/doc/Manual_de_Implementacao_do_Web_Service_SIGEPWEB_Logistica_Reversa.pdf)
 
 ### License
 
-The MIT License (MIT)
-
-Copyright (c) 2013 Agência Escape LTDA
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+See [License](https://github.com/EscapeWork/Frete/blob/master/LICENSE)
