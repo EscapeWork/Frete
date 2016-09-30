@@ -49,4 +49,14 @@ class Result implements ArrayAccess
             unset($this->attributes[$key]);
         }
     }
+
+    public function __toString()
+    {
+        return $this->toArray();
+    }
+
+    public function toArray()
+    {
+        return $this->attributes;
+    }
 }

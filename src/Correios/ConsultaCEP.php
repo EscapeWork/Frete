@@ -56,7 +56,7 @@ class ConsultaCEP extends BaseCorreios
 
     public function setCep($cep)
     {
-        $this->data['cep'] = $cep;
+        $this->data['cep'] = preg_replace("/[^0-9]/", "", $cep);
         return $this;
     }
 
