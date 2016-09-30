@@ -11,9 +11,13 @@ use EscapeWork\Frete\FreteException;
 require(__DIR__.'/../vendor/autoload.php');
 
 try {
-    $consulta = new ConsultaCEP;
-    $result   = $consulta->setCep(93320080)
-                         ->find();
+    # maneira mais lomga
+    // $consulta = new ConsultaCEP;
+    // $result   = $consulta->setCep(93320080)
+    //                      ->find();
+
+    # chamando método estático
+    $result = ConsultaCEP::search(93320080);
 
     # aqui você pode consultar os acessos aos resultados
     echo 'Bairro: '        . $result->bairro . "\n";

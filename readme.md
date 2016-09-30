@@ -150,6 +150,9 @@ try {
     $result   = $consulta->setCep(93320080)
                          ->find();
 
+    # ou, pra faciliar, você pode usar o método
+    # ConsultaCEP::search(93320080)
+
     echo $result->bairro;
     echo $result->cep;
     echo $result->cidade;

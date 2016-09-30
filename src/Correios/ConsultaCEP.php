@@ -63,10 +63,12 @@ class ConsultaCEP extends BaseCorreios
     public function find()
     {
         try {
+            // $client   = new SoapClient(Data::URL_CONSULTA_CEP);
             $client   = new SoapClient(__DIR__.'/../../resources/AtendeCliente.wsdl');
             $response = $client->consultaCEP($this->data);
 
-            return $this->result($response->return);
+            $this->result->fill((array) $response->return);
+            return $this->result;
         }
         catch (\Exception $e) {
             $exception = new FreteException($e->getMessage());
@@ -74,55 +76,9 @@ class ConsultaCEP extends BaseCorreios
         }
     }
 
-    protected function result($data)
+    public static function search($cep)
     {
-        $this->result->fill((array) $data);
-        return $this->result;
-    }
-
-    protected function hasError($data)
-    {
-        if (isset($data['cServico']['Erro'])) {
-            return ! in_array($data['cServico']['Erro'], $this->successfulCodes);
-        }
-
-        return ! in_array($data['cServico'][0]['Erro'], $this->successfulCodes);
-    }
-
-    protected function getErrorCode($data)
-    {
-        if (isset($data['cServico']['Erro'])) {
-            return is_array($data['cServico']['Erro']) ? array_shift($data['cServico']['Erro']) : $data['cServico']['Erro'];
-        }
-
-        return is_array($data['cServico'][0]['Erro']) ? array_shift($data['cServico'][0]['Erro']) : $data['cServico'][0]['Erro'];
-    }
-
-    protected function getErrorMessage($data)
-    {
-        if (isset($data['cServico']['MsgErro'])) {
-            return (string) is_array($data['cServico']['MsgErro']) ? array_shift($data['cServico']['MsgErro']) : $data['cServico']['MsgErro'];
-        }
-
-        return (string) is_array($data['cServico'][0]['MsgErro']) ? array_shift($data['cServico'][0]['MsgErro']) : $data['cServico'][0]['MsgErro'];
-    }
-
-    protected function dataIsCollection($data)
-    {
-        return ! isset($data['cServico']['Codigo']);
-    }
-
-    protected function makeCollection($data)
-    {
-        $objects = new Collection;
-
-        foreach ($data['cServico'] as $precoPrazo) {
-            $result = new ConsultaCEPResult();
-            $result->fill($precoPrazo);
-
-            $objects[] = $result;
-        }
-
-        return $objects;
+        return (new ConsultaCEP)->setCep($cep)
+                                ->find();
     }
 }
