@@ -11,7 +11,8 @@
 <a href="https://github.com/EscapeWork/Frete"><img src="https://img.shields.io/packagist/l/EscapeWork/Frete.svg?style=flat" alt="License MIT"></a>
 </p>
 
-<p align="center">Biblioteca PHP que utiliza os webservices dos correios para cálculo de frete, rastreamento de encomendas e busca de endereços através do CEP.</p>
+<p align="center">Biblioteca PHP que utiliza os webservices dos correios para cálculo de frete,
+rastreamento de encomendas e busca de endereços através do CEP.</p>
 
 ## Instalação
 
