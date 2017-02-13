@@ -1,13 +1,13 @@
 # EscapeWork/Frete
 
 <p align="center">
-<a href="http://travis-ci.org/EscapeWork/Frete"><img src="https://secure.travis-ci.org/EscapeWork/Frete.png"></a>
-<a href="https://packagist.org/packages/escapework/frete"><img src="https://poser.pugx.org/escapework/frete/v/stable.png"></a>
-<a href="https://packagist.org/packages/escapework/frete"><img src="https://poser.pugx.org/escapework/frete/downloads.png" alt=""></a>
+<img src="http://www.correios.com.br/++theme++correios.site.tema/images/logo_correios.png" alt="">
 </p>
 
 <p align="center">
-<img src="http://www.correios.com.br/++theme++correios.site.tema/images/logo_correios.png" alt="">
+<a href="http://travis-ci.org/EscapeWork/Frete"><img src="https://secure.travis-ci.org/EscapeWork/Frete.png"></a>
+<a href="https://packagist.org/packages/escapework/frete"><img src="https://poser.pugx.org/escapework/frete/v/stable.png"></a>
+<a href="https://packagist.org/packages/escapework/frete"><img src="https://poser.pugx.org/escapework/frete/downloads.png" alt=""></a>
 </p>
 
 ## Instalação
@@ -15,11 +15,7 @@
 Instalação via composer.
 
 ```json
-{
-    "require": {
-        "escapework/frete": "0.4.*"
-    }
-}
+$ composer require escapework/frete:0.4.*
 ```
 
 ## Calculando preço e prazo
