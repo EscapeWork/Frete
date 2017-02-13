@@ -1,6 +1,14 @@
 # EscapeWork/Frete
 
-[![Build Status](https://secure.travis-ci.org/EscapeWork/Frete.png)](http://travis-ci.org/EscapeWork/Frete) [![Latest Stable Version](https://poser.pugx.org/escapework/frete/v/stable.png)](https://packagist.org/packages/escapework/frete) [![Total Downloads](https://poser.pugx.org/escapework/frete/downloads.png)](https://packagist.org/packages/escapework/frete)
+<p align="center">
+<a href="http://travis-ci.org/EscapeWork/Frete"><img src="https://secure.travis-ci.org/EscapeWork/Frete.png"></a>
+<a href="https://packagist.org/packages/escapework/frete"><img src="https://poser.pugx.org/escapework/frete/v/stable.png"></a>
+<a href="https://packagist.org/packages/escapework/frete"><img src="https://poser.pugx.org/escapework/frete/downloads.png" alt=""></a>
+</p>
+
+<p align="center">
+<img src="http://www.correios.com.br/++theme++correios.site.tema/images/logo_correios.png" alt="">
+</p>
 
 ## Instalação
 
@@ -150,7 +158,7 @@ try {
     $result   = $consulta->setCep(93320080)
                          ->find();
 
-    # ou, pra faciliar, você pode usar o método
+    # ou, pra facilitar, você pode usar o método
     # ConsultaCEP::search(93320080)
 
     echo $result->bairro;
