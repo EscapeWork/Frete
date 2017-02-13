@@ -8,6 +8,7 @@
 <a href="http://travis-ci.org/EscapeWork/Frete"><img src="https://secure.travis-ci.org/EscapeWork/Frete.png"></a>
 <a href="https://packagist.org/packages/escapework/frete"><img src="https://poser.pugx.org/escapework/frete/v/stable.png"></a>
 <a href="https://packagist.org/packages/escapework/frete"><img src="https://poser.pugx.org/escapework/frete/downloads.png" alt=""></a>
+<a href="https://github.com/EscapeWork/laramedias"><img src="https://img.shields.io/packagist/l/EscapeWork/laramedias.svg?style=flat" alt="License MIT"></a>
 </p>
 
 ## Instalação
