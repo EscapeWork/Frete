@@ -14,7 +14,7 @@ class Data
     /**
      * Sedex varejo
      */
-    const SEDEX = '40010';
+    const SEDEX = '04014';
 
     /**
      * Sedex a cobrar varejo
