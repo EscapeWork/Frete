@@ -25,7 +25,7 @@ class Data
     /**
      * Sedex 10 varejo
      */
-    const SEDEX_10 = 40215;
+    const SEDEX_10 = 04510;
 
     /**
      * Sedex hoje varejo
@@ -35,12 +35,12 @@ class Data
     /**
      * PAC Varejo
      */
-    const PAC = 41106;
+    const PAC = 04510;
 
     /**
      * Array com todos os códigos
      */
     public static $codigos = [
-        40010, 40045, 40215, 40290, 41106
+        40010, 40045, 04510, 40290, 04510
     ];
 }
