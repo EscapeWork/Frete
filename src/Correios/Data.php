@@ -4,7 +4,6 @@ namespace EscapeWork\Frete\Correios;
 
 class Data
 {
-
     /**
      * Urls
      */
@@ -15,32 +14,32 @@ class Data
     /**
      * Sedex varejo
      */
-    const SEDEX = 40010;
+    const SEDEX = '40010';
 
     /**
      * Sedex a cobrar varejo
      */
-    const SEDEX_A_COBRAR = 40045;
+    const SEDEX_A_COBRAR = '40045';
 
     /**
      * Sedex 10 varejo
      */
-    const SEDEX_10 = 04510;
+    const SEDEX_10 = '04510';
 
     /**
      * Sedex hoje varejo
      */
-    const SEDEX_HOJE = 40290;
+    const SEDEX_HOJE = '40290';
 
     /**
      * PAC Varejo
      */
-    const PAC = 04510;
+    const PAC = '04510';
 
     /**
      * Array com todos os códigos
      */
     public static $codigos = [
-        40010, 40045, 04510, 40290, 04510
+        '40010', '40045', '04510', '40290', '04510'
     ];
 }
