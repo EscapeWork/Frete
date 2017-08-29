@@ -174,7 +174,7 @@ class PrecoPrazo extends BaseCorreios
     public function calculate()
     {
         $response = $this->client->get($this->buildUrl());
-        $xml      = simplexml_load_string($response->getBody()->getContents());
+        $xml      = simplexml_load_string($response->getBody()->getContents(), 'SimpleXMLElement', LIBXML_NOCDATA);
 
         return $this->result($xml);
     }
