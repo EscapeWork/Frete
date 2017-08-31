@@ -91,6 +91,9 @@ class Rastreamento extends BaseCorreios
     {
         if (! isset($data->error)) {
             if (isset($data->objeto->numero)) {
+                if (isset($data->objeto->erro)) {
+                    throw new FreteException($data->objeto->erro, 0);
+                }
                 $this->result->fill($data->objeto);
 
                 return $this->result;
