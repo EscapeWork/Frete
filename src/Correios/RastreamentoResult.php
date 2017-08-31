@@ -42,15 +42,33 @@ class RastreamentoResult extends Result
         $tipos  = ['BDE', 'BDI', 'BDR'];
         $status = ['0', '1', '01', '00'];
 
-        if (in_array($data->evento->tipo, $tipos) && in_array($data->evento->status, $status)) {
+        $evento = $this->getLastEvent($data);
+
+        if (in_array($evento->tipo, $tipos) && in_array($evento->status, $status)) {
             $this->delivered = true;
         }
     }
 
     protected function checkIfIsInTransit($data)
     {
-        if ($data->evento->tipo == 'DO') {
+        $evento = $this->getLastEvent($data);
+
+        if ($evento->tipo == 'DO') {
             $this->inTransit = true;
         }
+    }
+
+    /**
+     * Retorna último evento
+     * @param $data
+     * @return object
+     */
+    protected function getLastEvent($data)
+    {
+        if (is_array($data->evento)) {
+            return reset($data->evento);
+        }
+
+        return $data->evento;
     }
 }
