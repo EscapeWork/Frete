@@ -17,6 +17,12 @@ class Rastreamento extends BaseCorreios
     protected $result;
 
     /**
+     * Timeout da requisição ao WS dos Correios
+     * @var int
+     */
+    protected $requestTimeout = 1;
+
+    /**
      * Data
      * @var array
      */
@@ -73,9 +79,29 @@ class Rastreamento extends BaseCorreios
         return $this;
     }
 
+    /**
+     * Get request timeout
+     * @return int
+     */
+    public function getRequestTimeout()
+    {
+        return $this->requestTimeout;
+    }
+
+    /**
+     * Set request timeout
+     * @param int $requestTimeout
+     * @return Rastreamento
+     */
+    public function setRequestTimeout($requestTimeout)
+    {
+        $this->requestTimeout = $requestTimeout;
+        return $this;
+    }
+
     public function track()
     {
-        ini_set('default_socket_timeout', 1);
+        ini_set('default_socket_timeout', $this->requestTimeout);
 
         try {
             $client   = new SoapClient(__DIR__.'/../../resources/Rastro.wsdl');
