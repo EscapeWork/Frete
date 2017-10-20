@@ -2,14 +2,15 @@
 
 namespace EscapeWork\Frete;
 
+use EscapeWork\Frete\Correios\PrecoPrazoResult;
+use Exception;
+use Countable;
 use ArrayAccess;
 use ArrayIterator;
-use Countable;
 use IteratorAggregate;
 
 class Collection implements ArrayAccess, Countable, IteratorAggregate
 {
-
     /**
      * Items
      * @var array
@@ -29,6 +30,22 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate
     public function count()
     {
         return count($this->items);
+    }
+
+    /**
+     * @return Correios\PrecoPrazoResult
+     */
+    public function getFirstResultWithoutError()
+    {
+        foreach ($this->items as $item) {
+            if (! in_array($item['Erro'], ['0', '010'])) {
+                continue;
+            }
+
+            return $item;
+        }
+
+        throw new Exception('All items on this collections have errors');
     }
 
     public function offsetExists($key)

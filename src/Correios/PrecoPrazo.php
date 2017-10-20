@@ -9,7 +9,6 @@ use Exception, InvalidArgumentException;
 
 class PrecoPrazo extends BaseCorreios
 {
-
     /**
      * Guzzle client
      * @var GuzzleHttp\Client
@@ -25,13 +24,19 @@ class PrecoPrazo extends BaseCorreios
     /**
      * Códigos de erro aceitos
      */
-    protected $successfulCodes = ['0', '010'];
+    public $successfulCodes = ['0', '010'];
 
     /**
      * Formatos validos
      * @var array
      */
     protected $formatosValidos = [1, 2, 3];
+
+    /**
+     * Should throw an exception when the result is a collection
+     * @var bool
+     */
+    protected $shouldThrowAnExceptionWhenIsCollection = false;
 
     /**
      * Data
@@ -70,6 +75,12 @@ class PrecoPrazo extends BaseCorreios
         if (! $this->result = $result) {
             $this->result = new PrecoPrazoResult;
         }
+    }
+
+    public function setShouldThrowAnExceptionWhenIsCollection($shouldThrowAnExceptionWhenIsCollection)
+    {
+        $this->shouldThrowAnExceptionWhenIsCollection = $shouldThrowAnExceptionWhenIsCollection;
+        return $this;
     }
 
     public function setCodigoEmpresa($nCdEmpresa)
@@ -203,10 +214,12 @@ class PrecoPrazo extends BaseCorreios
 
         # se tiver um erro, da a mensagem de erro
         if ($this->hasError($data)) {
-            $exception = new FreteException($this->getErrorMessage($data));
-            $exception->setErrorCode($this->getErrorCode($data));
+            if (! ($this->dataIsCollection($data) && ! $this->shouldThrowAnExceptionWhenIsCollection)) {
+                $exception = new FreteException($this->getErrorMessage($data));
+                $exception->setErrorCode($this->getErrorCode($data));
 
-            throw $exception;
+                throw $exception;
+            }
         }
 
         if (! $this->dataIsCollection($data)) {
