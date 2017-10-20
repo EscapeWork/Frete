@@ -19,7 +19,7 @@ rastreamento de encomendas e busca de endereços através do CEP.</p>
 Instalação via composer.
 
 ```json
-$ composer require escapework/frete:"0.4.*"
+$ composer require escapework/frete:"0.5.*"
 ```
 
 ## Calculando preço e prazo
