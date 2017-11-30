@@ -24,7 +24,7 @@ class PrecoPrazo extends BaseCorreios
     /**
      * Códigos de erro aceitos
      */
-    public $successfulCodes = ['0', '010'];
+    public $successfulCodes = ['0', '010', '011'];
 
     /**
      * Formatos validos
