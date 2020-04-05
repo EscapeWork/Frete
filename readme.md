@@ -92,6 +92,12 @@ catch (FreteException $e) {
 }
 ```
 
+#### Calculando para múltiplos produtos
+
+Não existe nenhuma maneira completamente certa de se fazer isso (até onde ser). Eu recomendo usar a raiz cúbica dos produtos somadas para isto. Você pode ver mais informações aqui: 
+
+http://www.dothcom.net/blog/comercio-eletronico/calculo-de-frete-com-multiplos-volumes-dos-correios/
+
 ## Rastreamento de encomendas
 
 Fazendo o rastreio de encomendas online.
